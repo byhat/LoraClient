@@ -1,0 +1,3 @@
+[submodule "src/gateway/Lora"]
+	path = src/gateway/Lora
+	url = https://github.com/byhat/LoRaCore.git
