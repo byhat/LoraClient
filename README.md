@@ -3,7 +3,7 @@
 Простое Qt6/C++/QML - приложение для отправки и приёма данных через LoRa-модуль Ebyte E22-400T22U с использованием библиотеки LoRaCore.
 Отображается прогресс отправки/получения сообщений.
 
-![Image alt](./doc/images/screen.png)
+[![Watch the video](./doc/images/screen.png)](./doc/video/demo.mp4)
 
 ## Сборка
 
