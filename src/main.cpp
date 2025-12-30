@@ -12,7 +12,12 @@ int main(int argc, char *argv[])
     QQmlApplicationEngine engine;
     engine.rootContext()->setContextProperty("appEngine", &appEngine);
 
+#ifdef LET_IT_SNOW
     const QUrl url("qrc:/AppQml/presentation/qml/Main.qml");
+#else
+    const QUrl url("qrc:/AppQml/presentation/qml/Main_Snow.qml");
+#endif
+
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
                      &app, [url](QObject *obj, const QUrl &objUrl) {
                          if (!obj && url == objUrl)

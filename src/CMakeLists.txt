@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 3.16)
 
+option(LET_IT_SNOW "Shows snow effect" ON)
+
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC OFF)
 set(CMAKE_CXX_STANDARD 20)
@@ -14,6 +16,12 @@ qt_add_executable(${PROJECT_NAME}
     presentation/bridge/AppEngine.hpp
 )
 
+if(LET_IT_SNOW)
+    set(RESOURCE_FILES presentation/resources/images/snowflake.png)
+    set(MAIN_QML_FILE presentation/qml/Main_Snow.qml)
+else()
+    set(MAIN_QML_FILE presentation/qml/Main.qml)
+endif()
 
 target_link_libraries(${PROJECT_NAME} PRIVATE Qt6::Core)
 add_definitions(-lwiringPi -lpthread)
@@ -26,13 +34,14 @@ qt_add_qml_module(
     VERSION 1.0
 
     QML_FILES
-        presentation/qml/Main.qml
+        ${MAIN_QML_FILE}
         presentation/qml/Pages/ConnectionPage.qml
         presentation/qml/Pages/ChatPage.qml
 
     RESOURCES
         presentation/resources/icons/chat.svg
         presentation/resources/icons/setting.svg
+        ${RESOURCE_FILES}
 )
 
 set_target_properties(${PROJECT_NAME} PROPERTIES
