@@ -1,31 +1,53 @@
 cmake_minimum_required(VERSION 3.16)
 
-option(LET_IT_SNOW "Shows snow effect" ON)
+# options
+option(LET_IT_SNOW "Shows snow effect" OFF)
 
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC OFF)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+# find libs
 find_package(Qt6 COMPONENTS Core Qml Gui SerialPort Concurrent REQUIRED)
 find_package(Qt6 REQUIRED COMPONENTS Core)
 
+# add code files
 qt_add_executable(${PROJECT_NAME}
     main.cpp
     presentation/bridge/AppEngine.cpp
     presentation/bridge/AppEngine.hpp
 )
 
+# check snow option
 if(LET_IT_SNOW)
-    set(RESOURCE_FILES presentation/resources/images/snowflake.png)
+    # snow image
+    set(SNOW_RESOURCE_FILE       presentation/resources/images/snowflake.png)
+
+    # elements
+    set(SNOW_QML_FILE            presentation/qml/Elements/SnowBG.qml)
+
+    # pages
+    set(CONNECTION_PAGE_QML_FILE presentation/qml/Pages/ConnectionPage_Snow.qml)
+    set(CHAT_PAGE_QML_FILE       presentation/qml/Pages/ChatPage_Snow.qml)
+
+    # main page
     set(MAIN_QML_FILE presentation/qml/Main_Snow.qml)
+
+    # add macro for c++
+    add_compile_definitions(LET_IT_SNOW)
 else()
+    set(CONNECTION_PAGE_QML_FILE presentation/qml/Pages/ConnectionPage.qml)
+    set(CHAT_PAGE_QML_FILE       presentation/qml/Pages/ChatPage.qml)
+
+    # main page
     set(MAIN_QML_FILE presentation/qml/Main.qml)
 endif()
 
+# link libs
 target_link_libraries(${PROJECT_NAME} PRIVATE Qt6::Core)
-add_definitions(-lwiringPi -lpthread)
 
+# add lora connection external lib
 add_subdirectory(gateway/Lora)
 
 qt_add_qml_module(
@@ -34,14 +56,16 @@ qt_add_qml_module(
     VERSION 1.0
 
     QML_FILES
+        presentation/qml/Main.qml
+        ${SNOW_QML_FILE}
+        ${CHAT_PAGE_QML_FILE}
+        ${CONNECTION_PAGE_QML_FILE}
         ${MAIN_QML_FILE}
-        presentation/qml/Pages/ConnectionPage.qml
-        presentation/qml/Pages/ChatPage.qml
 
     RESOURCES
         presentation/resources/icons/chat.svg
         presentation/resources/icons/setting.svg
-        ${RESOURCE_FILES}
+        ${SNOW_RESOURCE_FILE}
 )
 
 set_target_properties(${PROJECT_NAME} PROPERTIES
