@@ -23,6 +23,7 @@ vendor/
 *.swp
 
 # Environment
+CMakeLists.txt.user
 .env
 .env.local
 *.env.*
