@@ -54,7 +54,7 @@
                           </qlist>
                          </stereotypes>
                          <name>IConnectionWorker</name>
-                         <pos>x:235;y:185</pos>
+                         <pos>x:230;y:310</pos>
                          <rect>x:-30;y:-30;w:60;h:60</rect>
                          <auto-sized>false</auto-sized>
                          <visual-role>0</visual-role>
@@ -76,7 +76,7 @@
                          </base-DElement>
                          <object>{b4b6c19e-4f42-481c-98a5-a09dd3486b55}</object>
                          <name>LoraWorker</name>
-                         <pos>x:235;y:550</pos>
+                         <pos>x:230;y:675</pos>
                          <rect>x:-180;y:-130;w:360;h:260</rect>
                          <auto-sized>false</auto-sized>
                          <visual-role>0</visual-role>
@@ -98,12 +98,13 @@
                          </base-DElement>
                          <object>{b817532c-3ef1-4c7c-8c92-edad16414eb9}</object>
                          <name>AppEngine</name>
-                         <pos>x:245;y:-485</pos>
-                         <rect>x:-80;y:-45;w:160;h:90</rect>
+                         <pos>x:160;y:-620</pos>
+                         <rect>x:-130;y:-55;w:260;h:110</rect>
                          <auto-sized>false</auto-sized>
                          <visual-role>0</visual-role>
                         </DObject>
                        </base-DObject>
+                       <show-all-members>true</show-all-members>
                       </DClass>
                      </instance>
                     </item>
@@ -134,7 +135,7 @@
                         </DElement>
                        </base-DElement>
                        <text>Gateway (Adapter)</text>
-                       <pos>x:220;y:425</pos>
+                       <pos>x:215;y:550</pos>
                        <rect>x:-220;y:-310;w:440;h:620</rect>
                       </DBoundary>
                      </instance>
@@ -151,12 +152,13 @@
                          </base-DElement>
                          <object>{3d01f3a6-5182-4539-b476-b7290751c911}</object>
                          <name>ConnectionUseCase</name>
-                         <pos>x:-115;y:-65</pos>
-                         <rect>x:-60;y:-55;w:120;h:110</rect>
+                         <pos>x:-350;y:40</pos>
+                         <rect>x:-215;y:-80;w:430;h:160</rect>
                          <auto-sized>false</auto-sized>
                          <visual-role>0</visual-role>
                         </DObject>
                        </base-DObject>
+                       <show-all-members>true</show-all-members>
                       </DClass>
                      </instance>
                     </item>
@@ -177,7 +179,7 @@
                           </qlist>
                          </stereotypes>
                          <name>IConnectionUseCase</name>
-                         <pos>x:-115;y:-265</pos>
+                         <pos>x:-350;y:-240</pos>
                          <rect>x:-30;y:-30;w:60;h:60</rect>
                          <auto-sized>false</auto-sized>
                          <visual-role>0</visual-role>
@@ -237,8 +239,8 @@
                         </DElement>
                        </base-DElement>
                        <text>Use cases</text>
-                       <pos>x:210;y:-155</pos>
-                       <rect>x:-460;y:-190;w:920;h:380</rect>
+                       <pos>x:240;y:-55</pos>
+                       <rect>x:-830;y:-270;w:1660;h:540</rect>
                       </DBoundary>
                      </instance>
                     </item>
@@ -259,12 +261,13 @@
                           </qlist>
                          </stereotypes>
                          <name>ISendUseCase</name>
-                         <pos>x:240;y:-265</pos>
+                         <pos>x:235;y:-250</pos>
                          <rect>x:-30;y:-30;w:60;h:60</rect>
                          <auto-sized>false</auto-sized>
                          <visual-role>0</visual-role>
                         </DObject>
                        </base-DObject>
+                       <show-all-members>true</show-all-members>
                       </DClass>
                      </instance>
                     </item>
@@ -280,12 +283,13 @@
                          </base-DElement>
                          <object>{2797ae31-003b-485c-b23b-7ed2963c2086}</object>
                          <name>SendUseCase</name>
-                         <pos>x:240;y:-75</pos>
-                         <rect>x:-70;y:-55;w:140;h:110</rect>
+                         <pos>x:235;y:35</pos>
+                         <rect>x:-220;y:-80;w:440;h:160</rect>
                          <auto-sized>false</auto-sized>
                          <visual-role>0</visual-role>
                         </DObject>
                        </base-DObject>
+                       <show-all-members>true</show-all-members>
                       </DClass>
                      </instance>
                     </item>
@@ -347,12 +351,13 @@
                           </qlist>
                          </stereotypes>
                          <name>IReceiveUseCase</name>
-                         <pos>x:540;y:-285</pos>
+                         <pos>x:800;y:-240</pos>
                          <rect>x:-30;y:-30;w:60;h:60</rect>
                          <auto-sized>false</auto-sized>
                          <visual-role>0</visual-role>
                         </DObject>
                        </base-DObject>
+                       <show-all-members>true</show-all-members>
                       </DClass>
                      </instance>
                     </item>
@@ -368,12 +373,13 @@
                          </base-DElement>
                          <object>{142fc3e9-4314-46eb-9917-8d8e5301af98}</object>
                          <name>ReceiveUseCase</name>
-                         <pos>x:535;y:-85</pos>
-                         <rect>x:-60;y:-55;w:120;h:110</rect>
+                         <pos>x:800;y:5</pos>
+                         <rect>x:-215;y:-55;w:430;h:110</rect>
                          <auto-sized>false</auto-sized>
                          <visual-role>0</visual-role>
                         </DObject>
                        </base-DObject>
+                       <show-all-members>true</show-all-members>
                       </DClass>
                      </instance>
                     </item>
@@ -435,12 +441,12 @@
                           <qlist>
                            <item>
                             <DRelation--IntermediatePoint>
-                             <pos>x:-290;y:-465</pos>
+                             <pos>x:-685;y:-595</pos>
                             </DRelation--IntermediatePoint>
                            </item>
                            <item>
                             <DRelation--IntermediatePoint>
-                             <pos>x:-290;y:190</pos>
+                             <pos>x:-680;y:310</pos>
                             </DRelation--IntermediatePoint>
                            </item>
                           </qlist>
@@ -469,11 +475,12 @@
                          </base-DElement>
                          <object>{c5cf180f-99b4-4bda-96b1-6bdb2c60861a}</object>
                          <name>QmlPresenter</name>
-                         <pos>x:910;y:-415</pos>
-                         <rect>x:-45;y:-30;w:90;h:60</rect>
+                         <pos>x:-500;y:-770</pos>
+                         <rect>x:-130;y:-75;w:260;h:150</rect>
                          <visual-role>0</visual-role>
                         </DObject>
                        </base-DObject>
+                       <show-all-members>true</show-all-members>
                       </DClass>
                      </instance>
                     </item>
@@ -486,8 +493,8 @@
                         </DElement>
                        </base-DElement>
                        <text>Presenter/Controller</text>
-                       <pos>x:915;y:-405</pos>
-                       <rect>x:-110;y:-95;w:220;h:190</rect>
+                       <pos>x:-495;y:-770</pos>
+                       <rect>x:-185;y:-130;w:370;h:260</rect>
                       </DBoundary>
                      </instance>
                     </item>
@@ -672,7 +679,7 @@
                          </base-DElement>
                          <object>{efc0374b-9b2e-4a38-9826-c1bc5741cd92}</object>
                          <name>New Package</name>
-                         <pos>x:260;y:-680</pos>
+                         <pos>x:625;y:-695</pos>
                          <rect>x:-190;y:-105;w:380;h:210</rect>
                          <auto-sized>false</auto-sized>
                          <visual-role>0</visual-role>
@@ -690,8 +697,8 @@
                         </DElement>
                        </base-DElement>
                        <text>Entities</text>
-                       <pos>x:260;y:-615</pos>
-                       <rect>x:-270;y:-230;w:540;h:460</rect>
+                       <pos>x:355;y:-620</pos>
+                       <rect>x:-520;y:-230;w:1040;h:460</rect>
                       </DBoundary>
                      </instance>
                     </item>
@@ -712,7 +719,7 @@
                           </qlist>
                          </stereotypes>
                          <name>ImageMsg</name>
-                         <pos>x:165;y:-665</pos>
+                         <pos>x:530;y:-680</pos>
                          <rect>x:-55;y:-55;w:110;h:110</rect>
                          <visual-role>0</visual-role>
                         </DObject>
@@ -739,7 +746,7 @@
                          </stereotypes>
                          <context>New Package</context>
                          <name>TextMsg</name>
-                         <pos>x:345;y:-670</pos>
+                         <pos>x:710;y:-685</pos>
                          <rect>x:-55;y:-55;w:110;h:110</rect>
                          <visual-role>0</visual-role>
                         </DObject>
@@ -786,8 +793,8 @@
                     </item>
                    </qlist>
                   </elements>
-                  <last-modified>1767125222969</last-modified>
-                  <toolbarid>General</toolbarid>
+                  <last-modified>1767204583498</last-modified>
+                  <toolbarid>Classes</toolbarid>
                  </MDiagram>
                 </base-MDiagram>
                </MCanvasDiagram>
@@ -820,7 +827,7 @@
                  <qlist>
                   <item>
                    <MClassMember>
-                    <uid>{c1e47a4b-e98c-49ed-9cd8-215d670c4234}</uid>
+                    <uid>{3acc5d37-9474-451e-afe0-d062e5fb6569}</uid>
                     <visibility>7</visibility>
                     <type>2</type>
                     <properties>1</properties>
@@ -829,7 +836,7 @@
                   </item>
                   <item>
                    <MClassMember>
-                    <uid>{d64d83c4-61f8-4763-9b44-e73777eaa10f}</uid>
+                    <uid>{6a0eb1f6-6522-435f-8c53-5f09d027448b}</uid>
                     <visibility>7</visibility>
                     <type>2</type>
                     <properties>1</properties>
@@ -838,7 +845,7 @@
                   </item>
                   <item>
                    <MClassMember>
-                    <uid>{76e13095-d373-469e-ab82-859e93495eee}</uid>
+                    <uid>{91635483-9035-49fb-9878-1ad0f6a05ef4}</uid>
                     <visibility>7</visibility>
                     <type>2</type>
                     <properties>1</properties>
@@ -847,7 +854,7 @@
                   </item>
                   <item>
                    <MClassMember>
-                    <uid>{5ca1ed8b-3690-4133-a0dd-82cf980df1fb}</uid>
+                    <uid>{5b7d775a-88f7-4f2c-99e0-131604998202}</uid>
                     <visibility>4</visibility>
                     <type>2</type>
                     <declaration>void portOpened(bool ok, const QString &amp;error = {})</declaration>
@@ -855,7 +862,7 @@
                   </item>
                   <item>
                    <MClassMember>
-                    <uid>{7c57410a-93d7-4e10-b62f-827882843498}</uid>
+                    <uid>{da2beea1-5042-442d-b2dd-320f3cba4936}</uid>
                     <visibility>4</visibility>
                     <type>2</type>
                     <declaration>void packetSent(bool success)</declaration>
@@ -863,7 +870,7 @@
                   </item>
                   <item>
                    <MClassMember>
-                    <uid>{fa4549eb-bf32-4b55-a4b2-cede9b4c4e8c}</uid>
+                    <uid>{629b6552-8aad-412d-a93c-f88d34560b02}</uid>
                     <visibility>4</visibility>
                     <type>2</type>
                     <declaration>void packetSendProgress(int sentBytes, int totalBytes)</declaration>
@@ -871,7 +878,7 @@
                   </item>
                   <item>
                    <MClassMember>
-                    <uid>{3748c59c-65a3-4452-8505-f896266fc442}</uid>
+                    <uid>{551a1c70-dbb1-4a01-b481-8b4b99ddfec3}</uid>
                     <visibility>4</visibility>
                     <type>2</type>
                     <declaration>void packetReceived(const QByteArray &amp;data)</declaration>
@@ -879,7 +886,7 @@
                   </item>
                   <item>
                    <MClassMember>
-                    <uid>{db197fde-cd1c-4eff-9566-38a24e7169a1}</uid>
+                    <uid>{b392e577-e83f-4b70-b06a-3834a02d0dcb}</uid>
                     <visibility>4</visibility>
                     <type>2</type>
                     <declaration>void packetReceiveProgress(int receivedBytes, int totalBytes)</declaration>
@@ -887,7 +894,7 @@
                   </item>
                   <item>
                    <MClassMember>
-                    <uid>{dab82b16-f983-464f-a338-ece94532a557}</uid>
+                    <uid>{c6e35573-2f84-46be-85be-722371aa94d9}</uid>
                     <visibility>4</visibility>
                     <type>2</type>
                     <declaration>void errorOccurred(const QString &amp;msg)</declaration>
@@ -950,7 +957,7 @@
                  <qlist>
                   <item>
                    <MClassMember>
-                    <uid>{e35c9a1e-0c1e-4429-a9f2-4075402a3203}</uid>
+                    <uid>{94f7ce52-696e-4251-a060-b43e5ccfcd01}</uid>
                     <visibility>1</visibility>
                     <type>2</type>
                     <declaration>explicit LoRaWorker(QObject *parent = nullptr)</declaration>
@@ -958,7 +965,7 @@
                   </item>
                   <item>
                    <MClassMember>
-                    <uid>{fe7ec807-8402-4336-aea5-ac49cc6481e3}</uid>
+                    <uid>{73649b81-f3d9-480e-a441-29a1258c125a}</uid>
                     <visibility>1</visibility>
                     <type>2</type>
                     <properties>8</properties>
@@ -967,7 +974,7 @@
                   </item>
                   <item>
                    <MClassMember>
-                    <uid>{40a63802-1fe3-4c79-be6b-b0a3adcb8d2f}</uid>
+                    <uid>{f70ea89e-883f-4fee-a351-41316f4f2dfb}</uid>
                     <visibility>7</visibility>
                     <type>2</type>
                     <declaration>void openPort(const QString &amp;portName, qint32 baud = 9600)</declaration>
@@ -975,7 +982,7 @@
                   </item>
                   <item>
                    <MClassMember>
-                    <uid>{fb03fdf8-84c8-4a39-a99f-cdb4a613cab0}</uid>
+                    <uid>{b4a644ed-e389-4e99-bb31-135d4fac6fa1}</uid>
                     <visibility>7</visibility>
                     <type>2</type>
                     <declaration>void closePort()</declaration>
@@ -983,7 +990,7 @@
                   </item>
                   <item>
                    <MClassMember>
-                    <uid>{53f1fd45-9c97-4674-98de-06c83b970b38}</uid>
+                    <uid>{5a0b8938-7727-4009-8e61-d819c7871155}</uid>
                     <visibility>7</visibility>
                     <type>2</type>
                     <declaration>void sendPacket(const QByteArray &amp;data)</declaration>
@@ -991,7 +998,7 @@
                   </item>
                   <item>
                    <MClassMember>
-                    <uid>{80bedd7e-cc51-4a71-9aa5-65a477a4dd63}</uid>
+                    <uid>{b45e3cda-2b58-4f4e-b379-89ff51f05bae}</uid>
                     <visibility>3</visibility>
                     <type>1</type>
                     <declaration>std::shared_ptr&lt;QSerialPort&gt; m_serial</declaration>
@@ -999,7 +1006,7 @@
                   </item>
                   <item>
                    <MClassMember>
-                    <uid>{86c8c21f-bd28-48ae-8a62-43300141d474}</uid>
+                    <uid>{68b54e97-e468-458b-8989-a8796a4fab06}</uid>
                     <visibility>3</visibility>
                     <type>1</type>
                     <declaration>std::unique_ptr&lt;LoRaUsbAdapter_E22_400T22U&gt; m_transport</declaration>
@@ -1362,6 +1369,34 @@
                   </relations>
                  </MObject>
                 </base-MObject>
+                <members>
+                 <qlist>
+                  <item>
+                   <MClassMember>
+                    <uid>{eee80f92-2c7d-4f37-ab73-8f66375f016c}</uid>
+                    <visibility>1</visibility>
+                    <type>2</type>
+                    <declaration>void Init()</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{252a954c-d8c4-4bc5-9ddc-41c79f680466}</uid>
+                    <visibility>3</visibility>
+                    <type>2</type>
+                    <declaration>void setConndector()</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{36a426d9-47bf-4e26-ab21-9218b921be3b}</uid>
+                    <visibility>3</visibility>
+                    <type>2</type>
+                    <declaration>void setupConnections()</declaration>
+                   </MClassMember>
+                  </item>
+                 </qlist>
+                </members>
                </MClass>
               </instance>
              </target>
@@ -1494,6 +1529,63 @@
                   </relations>
                  </MObject>
                 </base-MObject>
+                <members>
+                 <qlist>
+                  <item>
+                   <MClassMember>
+                    <uid>{df3a0932-74a9-4fde-9a2d-42e7fa650acc}</uid>
+                    <visibility>1</visibility>
+                    <type>2</type>
+                    <properties>8</properties>
+                    <declaration>void setConnector(std::shared_ptr&lt;IConnectionUseCase&gt; connector)</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{63ac6ca9-d06a-4169-b4bc-56003bc95ce3}</uid>
+                    <visibility>1</visibility>
+                    <type>2</type>
+                    <properties>8</properties>
+                    <declaration>void setSettings(QVariantHash settings)</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{79f21dc0-7a39-45e9-b637-8c8834213e7b}</uid>
+                    <visibility>1</visibility>
+                    <type>2</type>
+                    <properties>8</properties>
+                    <declaration>void connect()</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{d64d3db8-d19d-4a7b-adf8-ff58229393c4}</uid>
+                    <visibility>1</visibility>
+                    <type>2</type>
+                    <properties>8</properties>
+                    <declaration>void disconnect()</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{e18b8df5-ac07-4bd2-bd1e-2930b5cc2323}</uid>
+                    <visibility>1</visibility>
+                    <type>2</type>
+                    <properties>8</properties>
+                    <declaration>QStringList getInterfacesList()</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{19534657-f647-4685-a2e3-3ec8aed2cfcf}</uid>
+                    <visibility>3</visibility>
+                    <type>1</type>
+                    <declaration>std::shared_ptr&lt;IConnectionUseCase&gt; connector</declaration>
+                   </MClassMember>
+                  </item>
+                 </qlist>
+                </members>
                </MClass>
               </instance>
              </target>
@@ -1524,10 +1616,55 @@
                  <qlist>
                   <item>
                    <MClassMember>
-                    <uid>{8be51390-6469-4338-a3ac-0d528f7665ed}</uid>
-                    <visibility>3</visibility>
-                    <type>1</type>
-                    <declaration>std::shared_ptr&lt;IConnectionUseCase&gt; connector</declaration>
+                    <uid>{51cdac34-351b-4ba8-95ea-b5a1e1df610d}</uid>
+                    <visibility>1</visibility>
+                    <type>2</type>
+                    <properties>3</properties>
+                    <declaration>void setConnector(std::shared_ptr&lt;IConnectionUseCase&gt; connector)</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{defc131d-341c-4c02-ad2c-c0bb6bd3c9ef}</uid>
+                    <visibility>1</visibility>
+                    <type>2</type>
+                    <properties>3</properties>
+                    <declaration>void setSettings(QVariantHash settings)</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{fbd0cbce-140c-4fc1-9f1a-cc9a962f8fca}</uid>
+                    <visibility>1</visibility>
+                    <type>2</type>
+                    <properties>3</properties>
+                    <declaration>void connect()</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{098708a8-efa7-4d91-ac02-26f65e92d9e5}</uid>
+                    <visibility>1</visibility>
+                    <type>2</type>
+                    <properties>3</properties>
+                    <declaration>void disconnect()</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{abb66ba8-375d-49cc-bd61-476c6fb35f08}</uid>
+                    <visibility>1</visibility>
+                    <type>2</type>
+                    <properties>3</properties>
+                    <declaration>QStringList getInterfacesList()</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{0cacfd65-4626-4da4-b845-1c6d2d0bcee0}</uid>
+                    <visibility>4</visibility>
+                    <type>2</type>
+                    <declaration>errorOccured(QString error)</declaration>
                    </MClassMember>
                   </item>
                  </qlist>
@@ -1558,6 +1695,54 @@
                   <name>ISendUseCase</name>
                  </MObject>
                 </base-MObject>
+                <members>
+                 <qlist>
+                  <item>
+                   <MClassMember>
+                    <uid>{a0ad2d15-9b50-4dbc-ac0d-414e09021706}</uid>
+                    <visibility>1</visibility>
+                    <type>2</type>
+                    <properties>3</properties>
+                    <declaration>void setConnector(std::shared_ptr&lt;IConnectionUseCase&gt; connector)</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{fa461bd7-7e5d-481e-8fcb-5aba464ea7a1}</uid>
+                    <visibility>1</visibility>
+                    <type>2</type>
+                    <properties>3</properties>
+                    <declaration>void sendText(QString msg)</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{ab1fbcf1-5cca-491c-86a3-a4d6afc3c170}</uid>
+                    <visibility>1</visibility>
+                    <type>2</type>
+                    <properties>3</properties>
+                    <declaration>void sendImage(QString path)</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{fbf5691f-d5c7-49a8-b1e1-aa8fa3b13617}</uid>
+                    <visibility>1</visibility>
+                    <type>2</type>
+                    <properties>3</properties>
+                    <declaration>void sendFile(QString path)</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{27a050c3-a0f1-4c9c-9d95-b64313dbebd5}</uid>
+                    <visibility>4</visibility>
+                    <type>2</type>
+                    <declaration>errorOccured(QString error)</declaration>
+                   </MClassMember>
+                  </item>
+                 </qlist>
+                </members>
                </MClass>
               </instance>
              </target>
@@ -1712,6 +1897,54 @@
                   </relations>
                  </MObject>
                 </base-MObject>
+                <members>
+                 <qlist>
+                  <item>
+                   <MClassMember>
+                    <uid>{fa7fd203-fc6e-464e-91d9-baf35bd5c3d5}</uid>
+                    <visibility>1</visibility>
+                    <type>2</type>
+                    <properties>8</properties>
+                    <declaration>void setConnector(std::shared_ptr&lt;IConnectionUseCase&gt; connector)</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{6f3bd865-ec07-40ed-89df-7180ba8545b8}</uid>
+                    <visibility>1</visibility>
+                    <type>2</type>
+                    <properties>8</properties>
+                    <declaration>void sendText(QString msg)</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{6005e980-321a-4322-abd7-df8756ba6a6b}</uid>
+                    <visibility>1</visibility>
+                    <type>2</type>
+                    <properties>8</properties>
+                    <declaration>void sendImage(QString path)</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{ddfe813a-e6b2-4929-84cf-122afb24c514}</uid>
+                    <visibility>1</visibility>
+                    <type>2</type>
+                    <properties>8</properties>
+                    <declaration>void sendFile(QString path)</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{31cf06c7-aac8-46b2-8056-f6309baa77e9}</uid>
+                    <visibility>3</visibility>
+                    <type>1</type>
+                    <declaration>std::shared_ptr&lt;IConnectionUseCase&gt; connector</declaration>
+                   </MClassMember>
+                  </item>
+                 </qlist>
+                </members>
                </MClass>
               </instance>
              </target>
@@ -1738,6 +1971,60 @@
                   <name>IReceiveUseCase</name>
                  </MObject>
                 </base-MObject>
+                <members>
+                 <qlist>
+                  <item>
+                   <MClassMember>
+                    <uid>{3525be43-3078-4604-a09e-7bf447c894c9}</uid>
+                    <visibility>1</visibility>
+                    <type>2</type>
+                    <properties>3</properties>
+                    <declaration>void setConnector(std::shared_ptr&lt;IConnectionUseCase&gt; connector)</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{79cf2bdd-c4a4-47d2-bdbc-ac27b231f829}</uid>
+                    <visibility>1</visibility>
+                    <type>2</type>
+                    <properties>3</properties>
+                    <declaration>void handleData(QByteArray data)</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{6c28e412-f7ad-4784-903e-18357e4b5e76}</uid>
+                    <visibility>4</visibility>
+                    <type>2</type>
+                    <declaration>void imageReceived(const QImage &amp;img)</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{fe4c0299-733d-43e0-8761-93038c75b463}</uid>
+                    <visibility>4</visibility>
+                    <type>2</type>
+                    <declaration>void txtReceived(const QString &amp;str)</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{dcf27264-58e7-4f68-94d8-27a1c9328da1}</uid>
+                    <visibility>4</visibility>
+                    <type>2</type>
+                    <declaration>void fileReceived(const QByteAray &amp;data)</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{ccf07f8a-a970-418f-95f4-75558d9410f1}</uid>
+                    <visibility>4</visibility>
+                    <type>2</type>
+                    <declaration>errorOccured(QString error)</declaration>
+                   </MClassMember>
+                  </item>
+                 </qlist>
+                </members>
                </MClass>
               </instance>
              </target>
@@ -1892,6 +2179,36 @@
                   </relations>
                  </MObject>
                 </base-MObject>
+                <members>
+                 <qlist>
+                  <item>
+                   <MClassMember>
+                    <uid>{b0f16e89-854a-49f6-aef1-afe12a4b70d1}</uid>
+                    <visibility>1</visibility>
+                    <type>2</type>
+                    <properties>8</properties>
+                    <declaration>void setConnector(std::shared_ptr&lt;IConnectionUseCase&gt; connector)</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{a7143b77-244c-4a6b-bebb-4649e34c88f5}</uid>
+                    <visibility>1</visibility>
+                    <type>2</type>
+                    <properties>8</properties>
+                    <declaration>void handleData(QByteArray data)</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{780181fe-804b-4dc9-97d2-96a8cd81b4e3}</uid>
+                    <visibility>3</visibility>
+                    <type>1</type>
+                    <declaration>std::shared_ptr&lt;IConnectionUseCase&gt; connector</declaration>
+                   </MClassMember>
+                  </item>
+                 </qlist>
+                </members>
                </MClass>
               </instance>
              </target>
@@ -2051,6 +2368,58 @@
                   </relations>
                  </MObject>
                 </base-MObject>
+                <members>
+                 <qlist>
+                  <item>
+                   <MClassMember>
+                    <uid>{60dcb079-082d-4e36-b9bb-9ff87bf72ed8}</uid>
+                    <visibility>7</visibility>
+                    <type>2</type>
+                    <declaration>void sendTxt()</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{184e30d6-34a0-464b-ac91-f9d1aeb2e5b7}</uid>
+                    <visibility>7</visibility>
+                    <type>2</type>
+                    <declaration>void sendImage(QString path)</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{182951da-362a-49f2-84aa-02cc009ce595}</uid>
+                    <visibility>7</visibility>
+                    <type>2</type>
+                    <declaration>void sendFile(QString path)</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{61c1cfa9-0bc1-4db8-b0ae-e8fd374786f2}</uid>
+                    <visibility>7</visibility>
+                    <type>2</type>
+                    <declaration>void showImage(const &amp;QImage img)</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{0b751a97-fc53-4246-885a-1f29bc87a7fd}</uid>
+                    <visibility>7</visibility>
+                    <type>2</type>
+                    <declaration>void showTxt(const QString &amp;txt)</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{de61db19-33a0-4832-8ea4-dd276d931db0}</uid>
+                    <visibility>7</visibility>
+                    <type>2</type>
+                    <declaration>void showFileMetadata(const QString &amp;txt)</declaration>
+                   </MClassMember>
+                  </item>
+                 </qlist>
+                </members>
                </MClass>
               </instance>
              </target>
@@ -2125,7 +2494,7 @@
                             <qlist>
                              <item>
                               <MClassMember>
-                               <uid>{daec259b-b0a2-4270-be37-9e8e3a0b81df}</uid>
+                               <uid>{b1adc7fa-38cb-4e96-9b14-43ba2eb70839}</uid>
                                <visibility>1</visibility>
                                <type>1</type>
                                <declaration>QString msg</declaration>
@@ -2133,7 +2502,7 @@
                              </item>
                              <item>
                               <MClassMember>
-                               <uid>{ac20a2a2-e735-460f-964f-070f5de98e79}</uid>
+                               <uid>{e49bf3a8-b839-4a6a-b75f-e3a1f4ad5c45}</uid>
                                <visibility>1</visibility>
                                <type>1</type>
                                <declaration>QDatetime time</declaration>
@@ -2246,6 +2615,89 @@
                  </MObject>
                 </base-MObject>
                </MItem>
+              </instance>
+             </target>
+            </handle>
+           </item>
+           <item>
+            <handle>
+             <uid>{607048ce-d473-4040-89c6-cb99b9ab3ed6}</uid>
+             <target>
+              <instance type="MClass">
+               <MClass>
+                <base-MObject>
+                 <MObject>
+                  <base-MElement>
+                   <MElement>
+                    <uid>{607048ce-d473-4040-89c6-cb99b9ab3ed6}</uid>
+                    <stereotypes>
+                     <qlist>
+                      <item>interface</item>
+                     </qlist>
+                    </stereotypes>
+                   </MElement>
+                  </base-MElement>
+                  <name>New Interface</name>
+                 </MObject>
+                </base-MObject>
+                <members>
+                 <qlist>
+                  <item>
+                   <MClassMember>
+                    <uid>{4ec9c971-51fd-47a7-9024-345945c203ac}</uid>
+                    <visibility>1</visibility>
+                    <type>2</type>
+                    <properties>3</properties>
+                    <declaration>void setConnector(std::shared_ptr&lt;IConnectionUseCase&gt; connector)</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{767253ce-8ead-41d8-86b4-840911616d2e}</uid>
+                    <visibility>1</visibility>
+                    <type>2</type>
+                    <properties>3</properties>
+                    <declaration>void setSettings(QVariantHash settings)</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{91240aa3-f1e1-42c3-88e0-cbc791c14e41}</uid>
+                    <visibility>1</visibility>
+                    <type>2</type>
+                    <properties>3</properties>
+                    <declaration>void connect()</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{b2b75bbe-8116-423d-8d25-ad9c19410c8f}</uid>
+                    <visibility>1</visibility>
+                    <type>2</type>
+                    <properties>3</properties>
+                    <declaration>void disconnect()</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{e7a36e85-97d6-4e04-894f-8719744bb7e9}</uid>
+                    <visibility>1</visibility>
+                    <type>2</type>
+                    <properties>3</properties>
+                    <declaration>QStringList getInterfacesList()</declaration>
+                   </MClassMember>
+                  </item>
+                  <item>
+                   <MClassMember>
+                    <uid>{9633a41d-81af-40b0-b595-7a23829fca62}</uid>
+                    <visibility>3</visibility>
+                    <type>1</type>
+                    <declaration>std::shared_ptr&lt;IConnectionUseCase&gt; connector</declaration>
+                   </MClassMember>
+                  </item>
+                 </qlist>
+                </members>
+               </MClass>
               </instance>
              </target>
             </handle>
