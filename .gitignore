@@ -26,6 +26,7 @@ vendor/
 .env
 .env.local
 *.env.*
+.qtcreator
 
 # Editors
 .vscode/
