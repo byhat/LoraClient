@@ -1,7 +1,7 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
-#include "presentation/bridge/AppEngine.hpp"
+#include "src/application/AppEngine.hpp"
 
 int main(int argc, char *argv[])
 {

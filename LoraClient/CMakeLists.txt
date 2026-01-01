@@ -74,9 +74,6 @@ endif()
 # link libs
 target_link_libraries(${PROJECT_NAME} PRIVATE Qt6::Core)
 
-# add lora connection external lib
-add_subdirectory(gateway/Lora)
-
 qt_add_qml_module(
     ${PROJECT_NAME}
     URI AppQml

@@ -13,6 +13,7 @@ class IConnectionWorker : public QObject
     Q_OBJECT
 
 public:
+    // explicit IConnectionWorker(QObject *parent = nullptr);
     virtual ~IConnectionWorker() = default;
 
     /**

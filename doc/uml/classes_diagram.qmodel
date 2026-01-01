@@ -379,7 +379,7 @@
                           </DElement>
                          </base-DElement>
                          <object>{bc202b9d-dfed-4648-a2ed-d55e17520db6}</object>
-                         <name>LoraWorker</name>
+                         <name>LoRaWorker</name>
                          <pos>x:175;y:700</pos>
                          <rect>x:-180;y:-130;w:360;h:260</rect>
                          <visual-role>0</visual-role>
@@ -3097,14 +3097,14 @@
                     <uid>{bc202b9d-dfed-4648-a2ed-d55e17520db6}</uid>
                    </MElement>
                   </base-MElement>
-                  <name>LoraWorker</name>
+                  <name>LoRaWorker</name>
                  </MObject>
                 </base-MObject>
                 <members>
                  <qlist>
                   <item>
                    <MClassMember>
-                    <uid>{ae16bd84-cade-4ea0-81b2-7496f90ae52b}</uid>
+                    <uid>{16cec556-e256-46fe-8a86-e564dbddc1fb}</uid>
                     <visibility>1</visibility>
                     <type>2</type>
                     <declaration>explicit LoRaWorker(QObject *parent = nullptr)</declaration>
@@ -3112,7 +3112,7 @@
                   </item>
                   <item>
                    <MClassMember>
-                    <uid>{648aeb74-240c-4812-971e-9d0d932eedba}</uid>
+                    <uid>{84222642-b225-495e-a035-8a39c6972a82}</uid>
                     <visibility>1</visibility>
                     <type>2</type>
                     <properties>8</properties>
@@ -3121,7 +3121,7 @@
                   </item>
                   <item>
                    <MClassMember>
-                    <uid>{ea62ee87-07e0-4b19-b307-808744b4b176}</uid>
+                    <uid>{96ea2097-2f9f-40f5-b05a-d17edc850736}</uid>
                     <visibility>7</visibility>
                     <type>2</type>
                     <declaration>void openPort(const QString &amp;portName, qint32 baud = 9600)</declaration>
@@ -3129,7 +3129,7 @@
                   </item>
                   <item>
                    <MClassMember>
-                    <uid>{3688948f-d088-4f94-83bc-b26d43830bf6}</uid>
+                    <uid>{c974ead9-008f-46e4-97c6-279b0c357f8e}</uid>
                     <visibility>7</visibility>
                     <type>2</type>
                     <declaration>void closePort()</declaration>
@@ -3137,7 +3137,7 @@
                   </item>
                   <item>
                    <MClassMember>
-                    <uid>{cc304a57-04ee-4191-bf50-92bf4e86b004}</uid>
+                    <uid>{57548a10-eeff-4c30-872a-9b6f5389ce98}</uid>
                     <visibility>7</visibility>
                     <type>2</type>
                     <declaration>void sendPacket(const QByteArray &amp;data)</declaration>
@@ -3145,7 +3145,7 @@
                   </item>
                   <item>
                    <MClassMember>
-                    <uid>{5ad9badf-292a-41ba-a1ec-47616bd5d7dd}</uid>
+                    <uid>{79c0d653-0d2b-4d1f-a6fb-0ca274e79bd1}</uid>
                     <visibility>4</visibility>
                     <type>2</type>
                     <declaration>void portOpened(bool ok, const QString &amp;error = {})</declaration>
@@ -3153,7 +3153,7 @@
                   </item>
                   <item>
                    <MClassMember>
-                    <uid>{90b8a610-d623-48e5-82cf-3f3cd7b25f59}</uid>
+                    <uid>{b8809300-206d-4940-b2ea-c995bb1f1404}</uid>
                     <visibility>4</visibility>
                     <type>2</type>
                     <declaration>void packetSent(bool success)</declaration>
@@ -3161,7 +3161,7 @@
                   </item>
                   <item>
                    <MClassMember>
-                    <uid>{effb37bb-23b6-4001-bc70-935b2328d3aa}</uid>
+                    <uid>{8a87463a-9b8a-4977-a493-6f77d563d4a9}</uid>
                     <visibility>4</visibility>
                     <type>2</type>
                     <declaration>void packetSendProgress(int sentBytes, int totalBytes)</declaration>
@@ -3169,7 +3169,7 @@
                   </item>
                   <item>
                    <MClassMember>
-                    <uid>{67052cf3-96a3-44ae-87ef-4842ed69fb53}</uid>
+                    <uid>{03bae2f6-f11b-4214-b16b-0b146919394f}</uid>
                     <visibility>4</visibility>
                     <type>2</type>
                     <declaration>void packetReceived(const QByteArray &amp;data)</declaration>
@@ -3177,7 +3177,7 @@
                   </item>
                   <item>
                    <MClassMember>
-                    <uid>{0ced8b56-d81f-4fae-9e81-dc67e5f46f8c}</uid>
+                    <uid>{9ea32a1e-a3be-4580-af59-d61013bf2b4c}</uid>
                     <visibility>4</visibility>
                     <type>2</type>
                     <declaration>void packetReceiveProgress(int receivedBytes, int totalBytes)</declaration>
@@ -3185,7 +3185,7 @@
                   </item>
                   <item>
                    <MClassMember>
-                    <uid>{d80bc263-1b7d-4925-9de2-db127e1aae63}</uid>
+                    <uid>{1b9eb408-fa22-40f3-8337-5843a170cf47}</uid>
                     <visibility>4</visibility>
                     <type>2</type>
                     <declaration>void errorOccurred(const QString &amp;msg)</declaration>
@@ -3193,7 +3193,7 @@
                   </item>
                   <item>
                    <MClassMember>
-                    <uid>{3cfd7994-932a-4563-b5b8-0e79f47989de}</uid>
+                    <uid>{a8def777-988e-4509-9d0c-00c3d2cd874c}</uid>
                     <visibility>3</visibility>
                     <type>1</type>
                     <declaration>std::shared_ptr&lt;QSerialPort&gt; m_serial</declaration>
@@ -3201,7 +3201,7 @@
                   </item>
                   <item>
                    <MClassMember>
-                    <uid>{6d7adf70-ba89-447f-85a5-67df1e8fa182}</uid>
+                    <uid>{1179979b-007e-48d0-a015-9edada00dc3d}</uid>
                     <visibility>3</visibility>
                     <type>1</type>
                     <declaration>std::unique_ptr&lt;LoRaUsbAdapter_E22_400T22U&gt; m_transport</declaration>
