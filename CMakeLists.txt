@@ -8,7 +8,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(Qt6 COMPONENTS Core Qml Gui SerialPort Concurrent REQUIRED)
 
-add_subdirectory(src)
+add_subdirectory(LoraClient)
 
 # documentation
 file(GLOB DOC_FILES
