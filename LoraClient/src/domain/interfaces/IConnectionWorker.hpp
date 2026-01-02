@@ -1,3 +1,5 @@
+#pragma once
+
 #include <QObject>
 #include <QString>
 #include <QByteArray>
@@ -13,7 +15,6 @@ class IConnectionWorker : public QObject
     Q_OBJECT
 
 public:
-    // explicit IConnectionWorker(QObject *parent = nullptr);
     virtual ~IConnectionWorker() = default;
 
     /**
@@ -36,6 +37,11 @@ public:
      */
     virtual void sendPacket(const QByteArray &data) = 0;
 
+    /**
+     * @brief Получить список интерфейсов подключения
+     * @return список интерфейсов (например, для последовательного порта ["ttyUSB0", "ttyACM0"])
+     */
+    virtual QStringList getInterfacesList() = 0;
 signals:
     /**
      * @brief Сигнализирует об успешности/неудаче открытия порта
@@ -80,5 +86,5 @@ signals:
      *
      * @param msg Человекочитаемое описание ошибки
      */
-    void errorOccurred(const QString &msg);
+    void errorOccured(const QString &msg);
 };

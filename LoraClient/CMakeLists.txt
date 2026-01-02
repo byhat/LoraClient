@@ -42,8 +42,8 @@ qt_add_executable(${PROJECT_NAME}
     # presentation
     src/presentation/models/UiStructures.hpp
 
-    src/presentation/controller/QmlСontroller.hpp
-    src/presentation/controller/QmlСontroller.cpp
+    src/presentation/controller/QmlController.hpp
+    src/presentation/controller/QmlController.cpp
 )
 
 # check snow option

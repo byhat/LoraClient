@@ -3269,7 +3269,7 @@
                  <qlist>
                   <item>
                    <MClassMember>
-                    <uid>{6f946d8f-c5f5-4fd8-ad8f-978032db8b35}</uid>
+                    <uid>{4cbce4a2-600b-4bca-9a8d-32494aa6b34d}</uid>
                     <visibility>1</visibility>
                     <type>2</type>
                     <declaration>void setConnector(std::shared_ptr&lt;IConnectionWorker&gt; connector)</declaration>
@@ -3277,7 +3277,7 @@
                   </item>
                   <item>
                    <MClassMember>
-                    <uid>{1c521c10-b2c8-4f57-8623-4f5a54b76354}</uid>
+                    <uid>{32460617-4e43-4177-8ed0-1806b97f82b9}</uid>
                     <visibility>1</visibility>
                     <type>2</type>
                     <declaration>void setSettings(QVariantHash settings)</declaration>
@@ -3285,7 +3285,7 @@
                   </item>
                   <item>
                    <MClassMember>
-                    <uid>{1d9feb2f-35d2-441a-868c-4a26df071151}</uid>
+                    <uid>{7b868a5e-5352-4448-8109-b31011166b0b}</uid>
                     <visibility>1</visibility>
                     <type>2</type>
                     <declaration>void connect()</declaration>
@@ -3293,7 +3293,7 @@
                   </item>
                   <item>
                    <MClassMember>
-                    <uid>{57c890c3-3834-4e1e-a398-b4eb09a30d69}</uid>
+                    <uid>{a0cd6409-b4ca-45af-ba76-cc916571a735}</uid>
                     <visibility>1</visibility>
                     <type>2</type>
                     <declaration>void disconnect()</declaration>
@@ -3301,7 +3301,7 @@
                   </item>
                   <item>
                    <MClassMember>
-                    <uid>{6937402e-40f4-4ae0-98fa-8cab2145b100}</uid>
+                    <uid>{3e08b9e7-afd2-4fa8-9ce8-4fdecfcddf50}</uid>
                     <visibility>1</visibility>
                     <type>2</type>
                     <declaration>QStringList getInterfacesList()</declaration>
@@ -3309,7 +3309,7 @@
                   </item>
                   <item>
                    <MClassMember>
-                    <uid>{7aae112c-1128-4138-8916-82a00e3abd9d}</uid>
+                    <uid>{ef538f58-4d98-4cd0-a08b-d90ca93491e2}</uid>
                     <visibility>3</visibility>
                     <type>1</type>
                     <declaration>std::shared_ptr&lt;IConnectionWorker&gt; connector</declaration>
@@ -3317,7 +3317,7 @@
                   </item>
                   <item>
                    <MClassMember>
-                    <uid>{281425f2-8c0f-4b5b-969c-2c729a8ed998}</uid>
+                    <uid>{8ca09f42-b9fb-4632-a08d-b8fdb58a3df4}</uid>
                     <visibility>4</visibility>
                     <type>2</type>
                     <declaration>errorOccured(QString error)</declaration>
@@ -3564,7 +3564,7 @@
                  <qlist>
                   <item>
                    <MClassMember>
-                    <uid>{d455b1e6-619e-4940-ba34-4d275af8b915}</uid>
+                    <uid>{95cc5abc-5c4c-4146-8838-6b0cd7eed14d}</uid>
                     <visibility>1</visibility>
                     <type>2</type>
                     <declaration>void setConnector(std::shared_ptr&lt;IConnectionWorker&gt; connector)</declaration>
@@ -3572,7 +3572,7 @@
                   </item>
                   <item>
                    <MClassMember>
-                    <uid>{5ccfda89-436e-42c6-9e14-68eafc9f6436}</uid>
+                    <uid>{57db6045-67ca-4a74-ba8b-408de0fad347}</uid>
                     <visibility>1</visibility>
                     <type>2</type>
                     <declaration>void handleData(QByteArray data)</declaration>
@@ -3580,7 +3580,7 @@
                   </item>
                   <item>
                    <MClassMember>
-                    <uid>{dda42a57-4c3d-4097-80cf-d351134a6c53}</uid>
+                    <uid>{7dd6105c-3036-4c76-b6c6-61f731b386a2}</uid>
                     <visibility>4</visibility>
                     <type>2</type>
                     <declaration>void imageReceived(const QImage &amp;img)</declaration>
@@ -3588,7 +3588,7 @@
                   </item>
                   <item>
                    <MClassMember>
-                    <uid>{b8aacb29-e19b-4d72-9baf-085305bd39b3}</uid>
+                    <uid>{edbbaa56-52a5-44d7-a989-eedc56e5e340}</uid>
                     <visibility>4</visibility>
                     <type>2</type>
                     <declaration>void txtReceived(const QString &amp;str)</declaration>
@@ -3596,7 +3596,7 @@
                   </item>
                   <item>
                    <MClassMember>
-                    <uid>{a012bfbf-9539-4f69-8d92-95357bec6f04}</uid>
+                    <uid>{3a2004e4-2091-4648-b30b-c5aed65b514a}</uid>
                     <visibility>4</visibility>
                     <type>2</type>
                     <declaration>void fileReceived(const QByteAray &amp;data)</declaration>
@@ -3604,7 +3604,7 @@
                   </item>
                   <item>
                    <MClassMember>
-                    <uid>{de161e40-bb30-4012-8b29-9fadafa01e17}</uid>
+                    <uid>{11431013-048b-4bd0-9485-10167b131fbe}</uid>
                     <visibility>4</visibility>
                     <type>2</type>
                     <declaration>errorOccured(QString error)</declaration>
@@ -3612,7 +3612,7 @@
                   </item>
                   <item>
                    <MClassMember>
-                    <uid>{0018ed82-e1f2-4d75-9380-f14da4ffaeb7}</uid>
+                    <uid>{8f5199a6-1401-4487-93ad-57ddd1476ecc}</uid>
                     <visibility>3</visibility>
                     <type>1</type>
                     <declaration>std::shared_ptr&lt;IConnectionWorker&gt; connector</declaration>
