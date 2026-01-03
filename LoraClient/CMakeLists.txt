@@ -12,43 +12,67 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 find_package(Qt6 COMPONENTS Core Qml Gui SerialPort Concurrent REQUIRED)
 find_package(Qt6 REQUIRED COMPONENTS Core)
 
+# lora lib
+add_subdirectory(src/infrastructure/gateway/LoRaCore)
+
 # add code files
 qt_add_executable(${PROJECT_NAME}
     main.cpp
-    presentation/bridge/AppEngine.cpp
-    presentation/bridge/AppEngine.hpp
+
+    # app
+    src/application/AppEngine.hpp
+    src/application/AppEngine.cpp
+
+    # business-logic
+    src/core/entities/MsgStructures.hpp
+
+    src/core/usecases/ConnectionUseCase.cpp
+    src/core/usecases/ConnectionUseCase.hpp
+
+    src/core/usecases/ReceiveUseCase.cpp
+    src/core/usecases/ReceiveUseCase.hpp
+
+    src/core/usecases/SendUseCase.cpp
+    src/core/usecases/SendUseCase.hpp
+
+    # lora
+    src/domain/interfaces/IConnectionWorker.hpp
+    src/infrastructure/gateway/LoraWrapper.hpp
+
+    # presentation
+    src/presentation/models/UiStructures.hpp
+
+    src/presentation/controller/QmlController.hpp
+    src/presentation/controller/QmlController.cpp
 )
 
 # check snow option
 if(LET_IT_SNOW)
     # snow image
-    set(SNOW_RESOURCE_FILE       presentation/resources/images/snowflake.png)
+    set(SNOW_RESOURCE_FILE       resources/images/snowflake.png)
 
     # elements
-    set(SNOW_QML_FILE            presentation/qml/Elements/SnowBG.qml)
+    set(SNOW_QML_FILE            qml/Elements/SnowBG.qml)
 
     # pages
-    set(CONNECTION_PAGE_QML_FILE presentation/qml/Pages/ConnectionPage_Snow.qml)
-    set(CHAT_PAGE_QML_FILE       presentation/qml/Pages/ChatPage_Snow.qml)
+    set(CONNECTION_PAGE_QML_FILE qml/Pages/ConnectionPage_Snow.qml)
+    set(CHAT_PAGE_QML_FILE       qml/Pages/ChatPage_Snow.qml)
 
     # main page
-    set(MAIN_QML_FILE presentation/qml/Main_Snow.qml)
+    set(MAIN_QML_FILE qml/Main_Snow.qml)
 
     # add macro for c++
     add_compile_definitions(LET_IT_SNOW)
 else()
-    set(CONNECTION_PAGE_QML_FILE presentation/qml/Pages/ConnectionPage.qml)
-    set(CHAT_PAGE_QML_FILE       presentation/qml/Pages/ChatPage.qml)
+    set(CONNECTION_PAGE_QML_FILE qml/Pages/ConnectionPage.qml)
+    set(CHAT_PAGE_QML_FILE       qml/Pages/ChatPage.qml)
 
     # main page
-    set(MAIN_QML_FILE presentation/qml/Main.qml)
+    set(MAIN_QML_FILE qml/Main.qml)
 endif()
 
 # link libs
 target_link_libraries(${PROJECT_NAME} PRIVATE Qt6::Core)
-
-# add lora connection external lib
-add_subdirectory(gateway/Lora)
 
 qt_add_qml_module(
     ${PROJECT_NAME}
@@ -56,15 +80,15 @@ qt_add_qml_module(
     VERSION 1.0
 
     QML_FILES
-        presentation/qml/Main.qml
+        qml/Main.qml
         ${SNOW_QML_FILE}
         ${CHAT_PAGE_QML_FILE}
         ${CONNECTION_PAGE_QML_FILE}
         ${MAIN_QML_FILE}
 
     RESOURCES
-        presentation/resources/icons/chat.svg
-        presentation/resources/icons/setting.svg
+        resources/icons/chat.svg
+        resources/icons/setting.svg
         ${SNOW_RESOURCE_FILE}
 )
 

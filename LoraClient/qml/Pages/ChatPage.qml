@@ -1,6 +1,7 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
+import QtQuick.Dialogs
 
 Page {
     id: chatPage
@@ -9,6 +10,24 @@ Page {
         color: "#22233a"
         border.color: "#2d2d44"
         border.width: 1
+    }
+    property var fileDialogComponent: null
+
+    Component {
+        id: fileDialogComponentDef
+        FileDialog {
+            id: fileDialog
+            modality: Qt.ApplicationModal
+
+            onAccepted: {
+                appEngine.onSendImage(selectedFile)
+                destroy()
+            }
+
+            onRejected: {
+                destroy()
+            }
+        }
     }
 
     ColumnLayout {
@@ -32,22 +51,55 @@ Page {
             model: appEngine.messages
             delegate: ItemDelegate {
                 width: ListView.view.width
-                height: Math.max(40, contentItem.implicitHeight + 12)
+                height: Math.max(40, contentItem.height + 12)
 
                 leftPadding: 12
                 rightPadding: 12
                 topPadding: 6
                 bottomPadding: 6
 
-                contentItem: Text {
-                    id: messageText
+                contentItem: Item {
                     width: parent.width - (parent.leftPadding + parent.rightPadding)
-                    text: modelData.time + " [" + modelData.type + "] " + modelData.text
-                    wrapMode: Text.Wrap
-                    font.pixelSize: 14
-                    color: modelData.type === "sent" ? "#a5baff" :
-                           modelData.type === "received" ? "#a5e0aa" :
-                           "#fca5a5"
+                    height: childrenRect.height
+
+                    Column {
+                        spacing: 4
+                        width: parent.width
+
+                        Text {
+                            id: messageText
+                            width: parent.width
+                            text: modelData.text
+                            wrapMode: Text.Wrap
+                            font.pixelSize: 14
+                            color: modelData.type === "sent" ? "#a5baff" :
+                                   modelData.type === "received" ? "#a5e0aa" :
+                                   "#fca5a5"
+                            visible: modelData.text && modelData.text !== ""
+                        }
+
+                        Image {
+                            id: messageImage
+                            source: modelData.image || ""
+                            sourceSize.width: parent.width * 0.8
+                            sourceSize.height: parent.width * 0.8 * 0.75
+                            fillMode: Image.PreserveAspectFit
+                            visible: modelData.image !== undefined && modelData.image !== ""
+                            anchors.horizontalCenter: parent.horizontalCenter
+
+                            width: Math.min(parent.width * 0.8, 600)
+                            height: Math.min(parent.width * 0.8 * 0.75, 450)
+                        }
+
+                        Text {
+                            text: modelData.time
+                            font.pixelSize: 12
+                            color: "#888"
+                            opacity: 0.7
+                            horizontalAlignment: Text.AlignRight
+                            width: parent.width
+                        }
+                    }
                 }
 
                 background: Rectangle {
@@ -149,7 +201,7 @@ Page {
                 text: "Отправить"
                 onClicked: {
                     if (messageInput.text.trim() !== "") {
-                        appEngine.sendTextMessage(messageInput.text.trim())
+                        appEngine.onSendText(messageInput.text.trim())
                         messageInput.text = ""
                     }
                 }
@@ -158,6 +210,32 @@ Page {
                     button: "#4ade80"
                     buttonText: "#0f172a"
                 }
+            }
+
+            Button {
+                text: "+"
+                width: 40
+                height: 40
+                onClicked: {
+                    if (!fileDialogComponent) {
+                        fileDialogComponent = fileDialogComponentDef
+                    }
+
+                    var dialog = fileDialogComponent.createObject(parent)
+                    if (dialog) {
+                        dialog.title = "Выберите изображение"
+                        dialog.nameFilters = ["Изображения (*.png *.jpg *.jpeg *.bmp)", "Все файлы (*)"]
+                        dialog.open()
+                    } else {
+                        console.error("Не удалось создать FileDialog")
+                    }
+                }
+
+                palette: Palette {
+                    button: "#60a5fa"
+                    buttonText: "#e6e7ee"
+                }
+                font.pixelSize: 20
             }
         }
     }

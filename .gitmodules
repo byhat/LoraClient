@@ -1,6 +1,6 @@
-[submodule "src/gateway/Lora"]
-	path = src/gateway/Lora
-	url = https://github.com/byhat/LoRaCore.git
 [submodule "tools/LoraEchoServer"]
 	path = tools/LoraEchoServer
 	url = https://github.com/byhat/LoraEchoServer.git
+[submodule "LoraClient/src/infrastructure/gateway/LoRaCore"]
+	path = LoraClient/src/infrastructure/gateway/LoRaCore
+	url = https://github.com/byhat/LoRaCore.git
