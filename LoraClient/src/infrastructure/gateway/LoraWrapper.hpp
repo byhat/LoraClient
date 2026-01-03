@@ -1,5 +1,7 @@
 #pragma once
 
+#include <QThread>
+#include <QByteArray>
 #include <QSerialPortInfo>
 
 #include "src/domain/interfaces/IConnectionWorker.hpp"
@@ -21,6 +23,10 @@ public:
      */
     explicit LoraWrapper(QObject *parent = nullptr) {
         m_loraWorker = std::make_unique<LoRaWorker>(parent);
+        // m_loraWorker = std::make_unique<LoRaWorker>();
+        // m_loraWorker->moveToThread(&m_workerThread);
+
+        connectSignals();
     }
 
     ~LoraWrapper() = default;
@@ -34,9 +40,14 @@ public slots:
      */
     void openPort(const QString &portName, qint32 baud = 9600) override {
         try {
+            // QMetaObject::invokeMethod(
+            //     m_loraWorker.get(),
+            //     "openPort",
+            //     Qt::QueuedConnection
+            //     );
             m_loraWorker->openPort(portName, baud);
         } catch(...) {
-            emit errorOccured("LoRaWorker is not initialized");
+            emit errorOccurred("LoRaWorker is not initialized");
         }
     }
 
@@ -45,9 +56,15 @@ public slots:
      */
     void closePort() noexcept override {
         try {
+            // QMetaObject::invokeMethod(
+            //     m_loraWorker.get(),
+            //     "closePort",
+            //     Qt::QueuedConnection
+            //     );
             m_loraWorker->closePort();
+            emit portOpened(false);
         } catch(...) {
-            emit errorOccured("LoRaWorker is not initialized");
+            emit errorOccurred("LoRaWorker is not initialized");
         }
     }
 
@@ -58,9 +75,15 @@ public slots:
      */
     void sendPacket(const QByteArray &data) override {
         try {
+            // QMetaObject::invokeMethod(
+            //     m_loraWorker.get(),
+            //     "sendPacket",
+            //     Qt::QueuedConnection,
+            //     Q_ARG(QByteArray, data)
+            //     );
             m_loraWorker->sendPacket(data);
         } catch(...) {
-            emit errorOccured("LoRaWorker is not initialized");
+            emit errorOccurred("LoRaWorker is not initialized");
         }
     }
 
@@ -83,5 +106,58 @@ public slots:
     }
 
 private:
+    void connectSignals() {
+        connect(m_loraWorker.get(),
+                &LoRaWorker::portOpened,
+                this,
+                [this](bool ok, const QString &error) {
+                    emit portOpened(ok, error);
+                },
+                Qt::QueuedConnection);
+
+        connect(m_loraWorker.get(),
+                &LoRaWorker::packetSent,
+                this,
+                [this](bool success) {
+                    emit packetSent(success);
+                },
+                Qt::QueuedConnection);
+
+        connect(m_loraWorker.get(),
+                &LoRaWorker::packetReceived,
+                this,
+                [this](const QByteArray &data) {
+                    emit packetReceived(data);
+                },
+                Qt::QueuedConnection);
+
+        connect(m_loraWorker.get(),
+                &LoRaWorker::errorOccurred,
+                this,
+                [this](const QString &msg) {
+                    emit errorOccurred(msg);
+                },
+                Qt::QueuedConnection);
+
+        connect(m_loraWorker.get(),
+                &LoRaWorker::packetSendProgress,
+                this,
+                [this](int sentBytes, int totalBytes) {
+                    emit packetSendProgress(sentBytes,
+                                            totalBytes);
+                },
+                Qt::QueuedConnection);
+
+        connect(m_loraWorker.get(),
+                &LoRaWorker::packetReceiveProgress,
+                this,
+                [this](int receivedBytes, int totalBytes) {
+                    emit packetReceiveProgress(receivedBytes,
+                                            totalBytes);
+                },
+                Qt::QueuedConnection);
+    }
+
+    QThread m_workerThread;
     std::unique_ptr<LoRaWorker> m_loraWorker;  //!< Владеющий указатель на внутренний LoRaWorker
 };

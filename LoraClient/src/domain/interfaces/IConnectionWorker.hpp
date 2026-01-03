@@ -86,5 +86,5 @@ signals:
      *
      * @param msg Человекочитаемое описание ошибки
      */
-    void errorOccured(const QString &msg);
+    void errorOccurred(const QString &msg);
 };

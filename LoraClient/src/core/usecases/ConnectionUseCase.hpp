@@ -11,14 +11,17 @@
 class ConnectionUseCase : public QObject {
     Q_OBJECT
 public:
+    explicit ConnectionUseCase(QObject *parent = nullptr);
+
     void setConnector(std::shared_ptr<IConnectionWorker> connector);
     void setSettings(QVariantHash settings);
     void connect();
     void disconnect();
-    QStringList getInterfacesList();
+    void getInterfacesList();
 
 signals:
     void errorOccured(QString error);
+    void updateInterfacesList(QStringList lst);
 
 private:
     QVariantHash m_settings;

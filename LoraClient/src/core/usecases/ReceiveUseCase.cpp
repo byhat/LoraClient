@@ -1,5 +1,11 @@
 #include "ReceiveUseCase.hpp"
 
+ReceiveUseCase::ReceiveUseCase(QObject *parent)
+    : QObject {parent}
+{
+
+}
+
 void ReceiveUseCase::setConnector(std::shared_ptr<IConnectionWorker> connector)
 {
     std::lock_guard<std::mutex> lock(m_mutex);
@@ -16,7 +22,7 @@ void ReceiveUseCase::setConnector(std::shared_ptr<IConnectionWorker> connector)
     }
 }
 
-void ReceiveUseCase::handleData(QByteArray data)
+void ReceiveUseCase::handleData(const QByteArray &data)
 {
     int type = static_cast<int>(data[0]);
 

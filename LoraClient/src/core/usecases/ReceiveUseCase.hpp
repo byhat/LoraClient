@@ -13,8 +13,10 @@
 class ReceiveUseCase : public QObject{
     Q_OBJECT
 public:
+    explicit ReceiveUseCase(QObject *parent = nullptr);
+
     void setConnector(std::shared_ptr<IConnectionWorker> connector);
-    void handleData(QByteArray data);
+    void handleData(const QByteArray &data);
 
 signals:
     void imageReceived(const ImageMsg &img);

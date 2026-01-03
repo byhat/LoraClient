@@ -88,8 +88,8 @@ ApplicationWindow {
         ListView {
             anchors.fill: parent
             model: [
-                { text: "Настройки", icon: "qrc:/AppQml/presentation/resources/icons/setting.svg", component: connectionComponent },
-                { text: "Чат", icon: "qrc:/AppQml/presentation/resources/icons/chat.svg", component: chatComponent }
+                { text: "Настройки", icon: "qrc:/AppQml/resources/icons/setting.svg", component: connectionComponent },
+                { text: "Чат", icon: "qrc:/AppQml/resources/icons/chat.svg", component: chatComponent }
             ]
             delegate: ItemDelegate {
                 id: delegate

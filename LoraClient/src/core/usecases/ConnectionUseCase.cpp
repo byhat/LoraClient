@@ -1,6 +1,12 @@
 #include <mutex>
 #include "ConnectionUseCase.hpp"
 
+ConnectionUseCase::ConnectionUseCase(QObject *parent)
+    : QObject {parent}
+{
+
+}
+
 void ConnectionUseCase::setConnector(std::shared_ptr<IConnectionWorker> connector)
 {
     std::unique_lock lock(rw_mutex);
@@ -45,15 +51,16 @@ void ConnectionUseCase::disconnect()
     }
 }
 
-QStringList ConnectionUseCase::getInterfacesList()
+void ConnectionUseCase::getInterfacesList()
 {
     std::shared_lock lock(rw_mutex);
 
     try {
-        return m_connector->getInterfacesList();
+        emit updateInterfacesList(m_connector->getInterfacesList());
+        return;
     } catch(...) {
         emit errorOccured("Gateway adaprer is not initialized");
     }
 
-    return QStringList{};
+    emit updateInterfacesList(QStringList{});
 }

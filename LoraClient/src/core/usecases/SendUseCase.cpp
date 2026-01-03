@@ -7,6 +7,12 @@
 #include "src/core/entities/MsgStructures.hpp"
 
 
+SendUseCase::SendUseCase(QObject *parent)
+    : QObject {parent}
+{
+
+}
+
 void SendUseCase::setConnector(std::shared_ptr<IConnectionWorker> connector)
 {
     std::lock_guard<std::mutex> lock(m_mutex);

@@ -10,6 +10,8 @@
 class SendUseCase : public QObject {
     Q_OBJECT
 public:
+    explicit SendUseCase(QObject *parent = nullptr);
+
     void setConnector(std::shared_ptr<IConnectionWorker> connector);
     void sendText(QString msg);
     void sendImage(QString path);

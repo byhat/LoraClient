@@ -49,7 +49,7 @@ Page {
 
                 Button {
                     text: "Обновить"
-                    onClicked: appEngine.updateAvailablePorts()
+                    onClicked: appEngine.onGetInterfacesList()
 
                     palette: Palette {
                         button: "#3b4a8c"
