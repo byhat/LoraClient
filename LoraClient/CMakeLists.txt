@@ -80,7 +80,6 @@ qt_add_qml_module(
     VERSION 1.0
 
     QML_FILES
-        qml/Main.qml
         ${SNOW_QML_FILE}
         ${CHAT_PAGE_QML_FILE}
         ${CONNECTION_PAGE_QML_FILE}
