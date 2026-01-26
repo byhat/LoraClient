@@ -8,6 +8,7 @@
 
 #include "src/core/entities/MsgStructures.hpp"
 #include <src/domain/interfaces/IConnectionWorker.hpp>
+#include <src/infrastructure/loggining/ILogger.hpp>
 
 
 class ReceiveUseCase : public QObject{
@@ -16,6 +17,7 @@ public:
     explicit ReceiveUseCase(QObject *parent = nullptr);
 
     void setConnector(std::shared_ptr<IConnectionWorker> connector);
+    void setLogger(infrastructure::ILoggerPtr logger);
     void handleData(const QByteArray &data);
 
 signals:
@@ -26,5 +28,6 @@ signals:
 
 private:
     std::shared_ptr<IConnectionWorker> m_connector;
+    infrastructure::ILoggerPtr m_logger;
     std::mutex m_mutex; //!< блокировка при обновлении коннектора
 };

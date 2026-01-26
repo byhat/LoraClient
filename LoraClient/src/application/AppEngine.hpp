@@ -11,6 +11,7 @@
 #include "src/core/usecases/SendUseCase.hpp"
 #include "src/core/usecases/ReceiveUseCase.hpp"
 #include "src/core/usecases/ConnectionUseCase.hpp"
+#include <src/infrastructure/loggining/ILogger.hpp>
 
 #include "src/domain/interfaces/IConnectionWorker.hpp"
 #include "src/presentation/controller/QmlController.hpp"
@@ -27,6 +28,7 @@ public:
 private:
     void setupQmlEngine();
 
+    void setLogger();
     void setConnector();
     void setupConnections();
 
@@ -41,7 +43,7 @@ private:
     std::unique_ptr<SendUseCase> m_sendUseCase;
     std::unique_ptr<ReceiveUseCase> m_receiveUseCase;
     std::unique_ptr<ConnectionUseCase> m_connectionUseCase;
-
+    infrastructure::ILoggerPtr m_logger;
     std::unique_ptr<QQmlApplicationEngine> m_engine;
 
 };

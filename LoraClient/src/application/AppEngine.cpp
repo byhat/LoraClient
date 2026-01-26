@@ -6,22 +6,24 @@
 #include <QCoreApplication>
 
 #include "src/infrastructure/gateway/LoraWrapper.hpp"
-
+#include "src/infrastructure/loggining/SpdlogLogger.hpp"
 
 AppEngine::AppEngine(QObject *parent)
     : QObject { parent }
-    , m_connector         { std::make_shared<LoraWrapper>(this)           }
-    , m_sendUseCase       { std::make_unique<SendUseCase>(this)           }
-    , m_receiveUseCase    { std::make_unique<ReceiveUseCase>(this)        }
-    , m_connectionUseCase { std::make_unique<ConnectionUseCase>(this)     }
-    , m_controller        { std::make_unique<QmlController>(this)         }
-    , m_engine            { std::make_unique<QQmlApplicationEngine>(this) }
+    , m_connector         { std::make_shared<LoraWrapper>(this)                }
+    , m_logger            { std::make_shared<infrastructure::SpdlogLogger>()   }
+    , m_sendUseCase       { std::make_unique<SendUseCase>(this)                }
+    , m_receiveUseCase    { std::make_unique<ReceiveUseCase>(this)             }
+    , m_connectionUseCase { std::make_unique<ConnectionUseCase>(this)          }
+    , m_controller        { std::make_unique<QmlController>(this)              }
+    , m_engine            { std::make_unique<QQmlApplicationEngine>(this)      }
 {
 
 }
 
 void AppEngine::Init()
 {
+    setLogger();
     setConnector();
     setupConnections();
 
@@ -48,11 +50,23 @@ void AppEngine::setupQmlEngine()
     m_engine->load(url);
 }
 
+void AppEngine::setLogger()
+{
+    if (m_logger) {
+        m_sendUseCase->setLogger(m_logger);
+        m_receiveUseCase->setLogger(m_logger);
+        m_connectionUseCase->setLogger(m_logger);
+    }
+}
+
 void AppEngine::setConnector()
 {
     m_sendUseCase->setConnector(m_connector);
     m_receiveUseCase->setConnector(m_connector);
     m_connectionUseCase->setConnector(m_connector);
+    if (m_logger) {
+        m_logger->log(infrastructure::LogLevel::Info, "Connector set in AppEngine");
+    }
 }
 
 void AppEngine::setupConnections()

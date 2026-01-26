@@ -10,6 +10,14 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # find libs
 find_package(Qt6 COMPONENTS Core Qml Gui SerialPort Concurrent REQUIRED)
+# spdlog dependency via FetchContent
+include(FetchContent)
+FetchContent_Declare(
+    spdlog
+    GIT_REPOSITORY https://github.com/gabime/spdlog.git
+    GIT_TAG v1.14.1
+)
+FetchContent_MakeAvailable(spdlog)
 find_package(Qt6 REQUIRED COMPONENTS Core)
 
 # lora lib
@@ -22,12 +30,14 @@ qt_add_executable(${PROJECT_NAME}
     # app
     src/application/AppEngine.hpp
     src/application/AppEngine.cpp
-
+    
     # business-logic
     src/core/entities/MsgStructures.hpp
-
+    
     src/core/usecases/ConnectionUseCase.cpp
     src/core/usecases/ConnectionUseCase.hpp
+    src/infrastructure/loggining/SpdlogLogger.cpp
+    src/infrastructure/loggining/ILogger.hpp
 
     src/core/usecases/ReceiveUseCase.cpp
     src/core/usecases/ReceiveUseCase.hpp
@@ -72,7 +82,7 @@ else()
 endif()
 
 # link libs
-target_link_libraries(${PROJECT_NAME} PRIVATE Qt6::Core)
+target_link_libraries(${PROJECT_NAME} PRIVATE Qt6::Core spdlog::spdlog)
 
 qt_add_qml_module(
     ${PROJECT_NAME}
@@ -96,13 +106,14 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
 )
 
 target_link_libraries(${PROJECT_NAME}
-    PRIVATE
-        Qt6::Core
-        Qt6::Qml
-        Qt6::Gui
-        Qt6::SerialPort
-        Qt6::Concurrent
-        LoRaCore
+PRIVATE
+    Qt6::Core
+    Qt6::Qml
+    Qt6::Gui
+    Qt6::SerialPort
+    Qt6::Concurrent
+    LoRaCore
+    spdlog::spdlog
 )
 
 include(GNUInstallDirs)

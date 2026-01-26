@@ -22,6 +22,10 @@ void ReceiveUseCase::setConnector(std::shared_ptr<IConnectionWorker> connector)
     }
 }
 
+void ReceiveUseCase::setLogger(infrastructure::ILoggerPtr logger) {
+    m_logger = logger;
+}
+
 void ReceiveUseCase::handleData(const QByteArray &data)
 {
     int type = static_cast<int>(data[0]);

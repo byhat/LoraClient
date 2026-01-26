@@ -19,6 +19,10 @@ void SendUseCase::setConnector(std::shared_ptr<IConnectionWorker> connector)
     m_connector = connector;
 }
 
+void SendUseCase::setLogger(infrastructure::ILoggerPtr logger) {
+    m_logger = logger;
+}
+
 void SendUseCase::sendText(QString msg)
 {
     std::lock_guard<std::mutex> lock(m_mutex);

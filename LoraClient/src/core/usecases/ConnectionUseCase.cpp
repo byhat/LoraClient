@@ -1,6 +1,5 @@
 #include <mutex>
 #include "ConnectionUseCase.hpp"
-
 ConnectionUseCase::ConnectionUseCase(QObject *parent)
     : QObject {parent}
 {
@@ -37,6 +36,7 @@ void ConnectionUseCase::connect()
         m_connector->openPort(portName, baud);
     } catch(...) {
         emit errorOccured("Gateway adaprer is not initialized");
+        if (m_logger) m_logger->log(infrastructure::LogLevel::Error, "Gateway adapter not initialized on openPort");
     }
 }
 
@@ -48,7 +48,12 @@ void ConnectionUseCase::disconnect()
         m_connector->closePort();
     } catch(...) {
         emit errorOccured("Gateway adaprer is not initialized");
+        if (m_logger) m_logger->log(infrastructure::LogLevel::Error, "Gateway adapter not initialized on closePort");
     }
+}
+
+void ConnectionUseCase::setLogger(infrastructure::ILoggerPtr logger) {
+    m_logger = logger;
 }
 
 void ConnectionUseCase::getInterfacesList()
@@ -60,6 +65,7 @@ void ConnectionUseCase::getInterfacesList()
         return;
     } catch(...) {
         emit errorOccured("Gateway adaprer is not initialized");
+        if (m_logger) m_logger->log(infrastructure::LogLevel::Error, "Gateway adapter not initialized on getInterfacesList");
     }
 
     emit updateInterfacesList(QStringList{});
