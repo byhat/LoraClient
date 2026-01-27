@@ -7,8 +7,18 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(Qt6 COMPONENTS Core Qml Gui SerialPort Concurrent REQUIRED)
+# GoogleTest
+include(FetchContent)
+FetchContent_Declare(
+  googletest
+  URL https://github.com/google/googletest/archive/refs/tags/v1.14.0.zip
+)
+FetchContent_MakeAvailable(googletest)
 
 add_subdirectory(LoraClient)
+
+enable_testing()
+add_subdirectory(tests)
 
 # documentation
 file(GLOB DOC_FILES

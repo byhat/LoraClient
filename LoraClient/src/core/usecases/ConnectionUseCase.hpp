@@ -5,8 +5,8 @@
 #include <QStringList>
 #include <QVariantHash>
 
-#include <src/domain/interfaces/IConnectionWorker.hpp>
-#include <src/infrastructure/loggining/ILogger.hpp>
+#include "../../domain/interfaces/IConnectionWorker.hpp"
+#include "../../infrastructure/loggining/ILogger.hpp"
 
 
 class ConnectionUseCase : public QObject {
