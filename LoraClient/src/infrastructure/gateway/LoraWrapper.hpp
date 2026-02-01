@@ -5,7 +5,7 @@
 #include <QSerialPortInfo>
 
 #include "src/domain/interfaces/IConnectionWorker.hpp"
-#include "src/infrastructure/gateway/LoRaCore/src/LoRaWorker.hpp"
+#include <LoRaWorker.hpp>
 
 
 /**

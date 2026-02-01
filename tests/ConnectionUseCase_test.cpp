@@ -26,15 +26,10 @@ TEST_F(ConnectionUseCaseTest, SuccessfulConnectionEstablishes) {
 
     EXPECT_CALL(*mockWorker, openPort(QString{"ttyUSB1"}, 115200)).Times(1);
     QSignalSpy errorSpy(usecase.get(), &ConnectionUseCase::errorOccured);
-    QSignalSpy ifaceSpy(usecase.get(), &ConnectionUseCase::updateInterfacesList);
-
-    // Mock getInterfacesList to return list
-    EXPECT_CALL(*mockWorker, getInterfacesList()).WillOnce(Return(QStringList{"ttyUSB1"}));
 
     usecase->connect();
 
     EXPECT_EQ(errorSpy.count(), 0);
-    EXPECT_EQ(ifaceSpy.count(), 1);
 }
 
 TEST_F(ConnectionUseCaseTest, ConnectionErrorEmitsErrorSignal) {

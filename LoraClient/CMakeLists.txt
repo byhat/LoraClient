@@ -112,7 +112,7 @@ PRIVATE
     Qt6::Gui
     Qt6::SerialPort
     Qt6::Concurrent
-    LoRaCore
+    LoRaCore::LoRaCore
     spdlog::spdlog
 )
 
