@@ -1,11 +1,13 @@
 #include "QmlController.hpp"
+#include "src/core/usecases/SaveImageUseCase.hpp"
 
 #include <QUrl>
 #include <QBuffer>
 #include <QFileInfo>
 
 QmlController::QmlController(QObject *parent)
-    : QObject {parent}
+    : QObject{parent}
+    , m_saveImageUseCase(nullptr)
 {
 }
 
@@ -135,17 +137,26 @@ void QmlController::imageReceived(const ImageMsg &img)
     m_receiveBytes = m_receiveTotal = 0;
     m_receiveProgress = 0;
 
+    qDebug() << "imageReceived: img.isNull() =" << img.img.isNull() << ", size =" << img.img.size();
+
+    if (img.img.isNull()) {
+        qDebug() << "Warning: Received image is null!";
+        emit errorOccurred("Получено пустое изображение");
+        return;
+    }
+
     QByteArray ba;
     QBuffer buffer(&ba);
     buffer.open(QIODevice::WriteOnly);
     img.img.save(&buffer, "PNG");
 
     QString base64 = ba.toBase64().toStdString().c_str();
+    qDebug() << "imageReceived: base64 size =" << base64.size();
 
     QVariantMap msg;
     msg["type"] = "received";
     msg["time"] = img.time.toString("HH:mm:ss");
-    msg["image"] = "png";
+    msg["image"] = "data:image/png;base64," + base64;
     msg["text"] = "Изображение получено";
 
     m_messages.append(msg);
@@ -212,6 +223,53 @@ void QmlController::addSentMessage(const QString &text, const QString &type)
     }
 
     emit messagesChanged();
+}
+
+void QmlController::setSaveImageUseCase(SaveImageUseCase *usecase)
+{
+    m_saveImageUseCase = usecase;
+
+    if (m_saveImageUseCase) {
+        connect(m_saveImageUseCase, &SaveImageUseCase::imageSaved,
+                this, &QmlController::imageSaved);
+        connect(m_saveImageUseCase, &SaveImageUseCase::errorOccured,
+                this, &QmlController::saveImageError);
+    }
+}
+
+void QmlController::saveImage(const QString &base64Data, const QString &timestamp)
+{
+    if (m_saveImageUseCase) {
+        m_saveImageUseCase->saveImage(base64Data, timestamp);
+    } else {
+        addSentMessage("Ошибка: SaveImageUseCase не инициализирован", "error");
+    }
+}
+
+void QmlController::saveImageToPath(const QString &base64Data, const QString &timestamp, const QString &filePath)
+{
+    if (m_saveImageUseCase) {
+        // Convert URL to local file path if needed
+        QString localPath = filePath;
+        QUrl url(filePath);
+        if (url.isValid() && url.isLocalFile()) {
+            localPath = url.toLocalFile();
+        }
+        m_saveImageUseCase->saveImageToPath(base64Data, timestamp, localPath);
+    } else {
+        addSentMessage("Ошибка: SaveImageUseCase не инициализирован", "error");
+    }
+}
+
+void QmlController::imageSaved(const QString &filePath)
+{
+    addSentMessage("Изображение сохранено: " + filePath, "sent");
+    emit imageSavedSignal(filePath);
+}
+
+void QmlController::saveImageError(const QString &errorMessage)
+{
+    addSentMessage("Ошибка сохранения: " + errorMessage, "error");
 }
 
 void QmlController::addSentImage(const QString &path, const QImage &img) {

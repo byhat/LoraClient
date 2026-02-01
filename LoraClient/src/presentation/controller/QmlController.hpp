@@ -7,6 +7,9 @@
 
 #include "src/core/entities/MsgStructures.hpp"
 
+// Forward declarations
+class SaveImageUseCase;
+
 
 class QmlController : public QObject {
     Q_OBJECT
@@ -32,6 +35,8 @@ public slots:
     void onSendText(QString msg);
     void onSendImage(QString path);
     void onSendFile(QString path);
+    Q_INVOKABLE void saveImage(const QString &base64Data, const QString &timestamp);
+    Q_INVOKABLE void saveImageToPath(const QString &base64Data, const QString &timestamp, const QString &filePath);
 
     void onOpenPort();
     void onClosePort();
@@ -53,6 +58,10 @@ public slots:
     void packetSendProgress(int sentBytes, int totalBytes);
     void packetReceiveProgress(int receivedBytes, int totalBytes);
 
+    // SaveImageUseCase slots
+    void imageSaved(const QString &filePath);
+    void saveImageError(const QString &errorMessage);
+
 signals:
     // qml data update signals
     void portNameChanged();
@@ -73,6 +82,9 @@ signals:
     void sendText(QString msg);
     void sendImage(QString path);
     void sendFile(QString path);
+
+    // Save image signals
+    void imageSavedSignal(QString filePath);
 
 
 private:
@@ -96,4 +108,9 @@ private:
     void addSentImage(const QString &path, const QImage &img);
     void addReceivedImage(const QString &path, const QImage &img);
     void initializeLoRaWorker();
+
+    SaveImageUseCase *m_saveImageUseCase;
+
+public:
+    void setSaveImageUseCase(SaveImageUseCase *usecase);
 };

@@ -15,6 +15,7 @@ AppEngine::AppEngine(QObject *parent)
     , m_sendUseCase       { std::make_unique<SendUseCase>(this)                }
     , m_receiveUseCase    { std::make_unique<ReceiveUseCase>(this)             }
     , m_connectionUseCase { std::make_unique<ConnectionUseCase>(this)          }
+    , m_saveImageUseCase  { std::make_unique<SaveImageUseCase>(this)           }
     , m_controller        { std::make_unique<QmlController>(this)              }
     , m_engine            { std::make_unique<QQmlApplicationEngine>(this)      }
 {
@@ -56,6 +57,7 @@ void AppEngine::setLogger()
         m_sendUseCase->setLogger(m_logger);
         m_receiveUseCase->setLogger(m_logger);
         m_connectionUseCase->setLogger(m_logger);
+        m_saveImageUseCase->setLogger(m_logger);
     }
 }
 
@@ -75,6 +77,7 @@ void AppEngine::setupConnections()
     setupSendUcConnections();
     setupConnectionUcConnections();
     setupConnectionWConnections();
+    setupSaveImageUcConnections();
 }
 
 void AppEngine::setupReceiveUcConnections()
@@ -157,4 +160,9 @@ void AppEngine::setupConnectionWConnections()
             &IConnectionWorker::packetReceiveProgress,
             m_controller.get(),
             &QmlController::packetReceiveProgress);
+}
+
+void AppEngine::setupSaveImageUcConnections()
+{
+    m_controller->setSaveImageUseCase(m_saveImageUseCase.get());
 }

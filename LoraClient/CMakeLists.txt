@@ -45,6 +45,9 @@ qt_add_executable(${PROJECT_NAME}
     src/core/usecases/SendUseCase.cpp
     src/core/usecases/SendUseCase.hpp
 
+    src/core/usecases/SaveImageUseCase.cpp
+    src/core/usecases/SaveImageUseCase.hpp
+
     # lora
     src/domain/interfaces/IConnectionWorker.hpp
     src/infrastructure/gateway/LoraWrapper.hpp

@@ -12,6 +12,9 @@ Page {
         border.width: 1
     }
     property var fileDialogComponent: null
+    property var saveFileDialogComponent: null
+    property var currentImageData: null
+    property var currentImageTime: null
 
     Component {
         id: fileDialogComponentDef
@@ -25,6 +28,32 @@ Page {
             }
 
             onRejected: {
+                destroy()
+            }
+        }
+    }
+
+    Component {
+        id: saveFileDialogComponentDef
+        FileDialog {
+            id: saveFileDialog
+            modality: Qt.ApplicationModal
+            fileMode: FileDialog.SaveFile
+            acceptLabel: "Сохранить"
+            rejectLabel: "Отмена"
+
+            onAccepted: {
+                if (selectedFile && currentImageData) {
+                    appEngine.saveImageToPath(currentImageData, currentImageTime, selectedFile)
+                }
+                currentImageData = null
+                currentImageTime = null
+                destroy()
+            }
+
+            onRejected: {
+                currentImageData = null
+                currentImageTime = null
                 destroy()
             }
         }
@@ -78,17 +107,76 @@ Page {
                             visible: modelData.text && modelData.text !== ""
                         }
 
-                        Image {
-                            id: messageImage
-                            source: modelData.image || ""
-                            sourceSize.width: parent.width * 0.8
-                            sourceSize.height: parent.width * 0.8 * 0.75
-                            fillMode: Image.PreserveAspectFit
-                            visible: modelData.image !== undefined && modelData.image !== ""
-                            anchors.horizontalCenter: parent.horizontalCenter
-
+                        Item {
                             width: Math.min(parent.width * 0.8, 600)
-                            height: Math.min(parent.width * 0.8 * 0.75, 450)
+                            height: Math.min(parent.width * 0.8 * 0.75, 450) + 30
+                            anchors.horizontalCenter: parent.horizontalCenter
+                            visible: modelData.image !== undefined && modelData.image !== ""
+
+                            Image {
+                                id: messageImage
+                                anchors.fill: parent
+                                anchors.bottomMargin: 30
+                                source: modelData.image || ""
+                                sourceSize.width: parent.width
+                                sourceSize.height: parent.height - 30
+                                fillMode: Image.PreserveAspectFit
+                            }
+
+                            Button {
+                                id: saveButton
+                                anchors.bottom: parent.bottom
+                                anchors.horizontalCenter: parent.horizontalCenter
+                                width: 80
+                                height: 24
+                                text: "Сохранить"
+                                font.pixelSize: 11
+
+                                background: Rectangle {
+                                    color: saveButton.hovered ? "#4ade80" : "#3b82f6"
+                                    radius: 4
+                                }
+
+                                contentItem: Text {
+                                    text: saveButton.text
+                                    font: saveButton.font
+                                    color: "#ffffff"
+                                    horizontalAlignment: Text.AlignHCenter
+                                    verticalAlignment: Text.AlignVCenter
+                                }
+
+                                onClicked: {
+                                    currentImageData = modelData.image
+                                    currentImageTime = modelData.time
+                                    
+                                    if (!saveFileDialogComponent) {
+                                        saveFileDialogComponent = saveFileDialogComponentDef
+                                    }
+
+                                    var dialog = saveFileDialogComponent.createObject(parent)
+                                    if (dialog) {
+                                        dialog.title = "Сохранить изображение"
+                                        
+                                        // Generate default filename from timestamp
+                                        var defaultFilename = "image_"
+                                        if (modelData.time) {
+                                            // Replace colons with dashes for valid filename
+                                            var timeStr = modelData.time.replace(/:/g, "-")
+                                            defaultFilename += timeStr
+                                        } else {
+                                            var now = new Date()
+                                            defaultFilename += now.toISOString().slice(0, 19).replace(/:/g, "-").replace("T", "_")
+                                        }
+                                        defaultFilename += ".png"
+                                        
+                                        dialog.selectedFile = new URL("file://" + defaultFilename).toString()
+                                        dialog.nameFilters = ["Изображения (*.png)", "Все файлы (*)"]
+                                        dialog.open()
+                                    } else {
+                                        console.error("Не удалось создать SaveFileDialog")
+                                    }
+                                }
+                            }
                         }
 
                         Text {

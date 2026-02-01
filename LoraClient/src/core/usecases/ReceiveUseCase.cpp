@@ -1,4 +1,5 @@
 #include "ReceiveUseCase.hpp"
+#include <QDebug>
 
 ReceiveUseCase::ReceiveUseCase(QObject *parent)
     : QObject {parent}
@@ -28,6 +29,13 @@ void ReceiveUseCase::setLogger(infrastructure::ILoggerPtr logger) {
 
 void ReceiveUseCase::handleData(const QByteArray &data)
 {
+    qDebug() << "handleData: received data size =" << data.size() << ", type =" << (data.isEmpty() ? -1 : static_cast<int>(data[0]));
+
+    if (data.isEmpty()) {
+        qDebug() << "Warning: Received empty data packet";
+        return;
+    }
+
     int type = static_cast<int>(data[0]);
 
     if (type == AppEnums::MSG_TYPE::Text) {
@@ -37,7 +45,13 @@ void ReceiveUseCase::handleData(const QByteArray &data)
         emit txtReceived(msg);
     } else if (type == AppEnums::MSG_TYPE::Image) {
         ImageMsg msg;
-        msg.img = QImage(qUncompress(data.mid(AppEnums::MSG_TYPE_FLAG_SIZE)));
+        QByteArray uncompressedData = qUncompress(data.mid(AppEnums::MSG_TYPE_FLAG_SIZE));
+        qDebug() << "handleData: Image data, uncompressed size =" << uncompressedData.size();
+        bool loaded = msg.img.loadFromData(uncompressedData);
+        qDebug() << "handleData: Image loadFromData result =" << loaded << ", isNull =" << msg.img.isNull();
+        if (!loaded || msg.img.isNull()) {
+            qDebug() << "Warning: Failed to load image from data";
+        }
         msg.time = QDateTime::currentDateTime();
         emit imageReceived(msg);
     } else if (type == AppEnums::MSG_TYPE::File) {
