@@ -32,8 +32,7 @@ jobs:
           qml6-module-qtquick-controls \
           qml6-module-qtquick-layouts \
           qml6-module-qtquick-templates \
-          qml6-module-qtquick-window \
-          qml6-module-qtlabsplatform
+          qml6-module-qtquick-window
     
     - name: Configure CMake
       run: |
