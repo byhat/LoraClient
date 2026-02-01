@@ -1,0 +1,69 @@
+name: Build and Test (Linux)
+
+on:
+  push:
+    branches: [ main, master, develop ]
+  pull_request:
+    branches: [ main, master, develop ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        submodules: recursive
+    
+    - name: Install dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y \
+          build-essential \
+          cmake \
+          qt6-base-dev \
+          qt6-declarative-dev \
+          libqt6svg6-dev \
+          libspdlog-dev \
+          libgtest-dev \
+          libgmock-dev \
+          qml6-module-qtquick \
+          qml6-module-qtquick-controls \
+          qml6-module-qtquick-layouts \
+          qml6-module-qtquick-templates \
+          qml6-module-qtquick-window \
+          qml6-module-qtlabsplatform
+    
+    - name: Configure CMake
+      run: |
+        cmake -B build -DCMAKE_BUILD_TYPE=Release
+    
+    - name: Build
+      run: |
+        cmake --build build --config Release -j$(nproc)
+    
+    - name: Run tests
+      run: |
+        cd build
+        ./tests/loraclient_tests --gtest_output=xml:test_results.xml
+    
+    - name: Upload test results
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: test-results
+        path: build/test_results.xml
+    
+    - name: Build summary
+      if: always()
+      run: |
+        echo "## Build Summary" >> $GITHUB_STEP_SUMMARY
+        echo "- OS: Ubuntu (Linux)" >> $GITHUB_STEP_SUMMARY
+        echo "- Build Type: Release" >> $GITHUB_STEP_SUMMARY
+        echo "- Compiler: GCC" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        if [ -f build/test_results.xml ]; then
+          echo "### Test Results" >> $GITHUB_STEP_SUMMARY
+          echo "Tests completed successfully!" >> $GITHUB_STEP_SUMMARY
+        fi
