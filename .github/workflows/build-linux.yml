@@ -24,6 +24,7 @@ jobs:
           cmake \
           qt6-base-dev \
           qt6-declarative-dev \
+          qt6-serialport-dev \
           libqt6svg6-dev \
           libspdlog-dev \
           libgtest-dev \
