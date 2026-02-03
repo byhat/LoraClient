@@ -9,7 +9,7 @@ ParticleSystem {
     ImageParticle {
         id: snowflakeParticle
         system: particleSystem
-        source: "qrc:/AppQml/presentation/resources/images/snowflake.png"
+        source: "qrc:/AppQml/resources/images/snowflake.png"
     }
 
     Emitter {
