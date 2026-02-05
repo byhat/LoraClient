@@ -1,8 +1,10 @@
+
+
 <div align="center">
 
 # LoRaClient
 
-### Qt6/C++/QML клиент для работы с LoRa-модулем Ebyte E22-400T22U
+### Qt6/C++/QML client for working with LoRa module Ebyte E22-400T22U
 
 [![Build](https://github.com/byhat/LoraClient/actions/workflows/build-linux.yml/badge.svg)](https://github.com/byhat/LoraClient/actions/workflows/build-linux.yml)
 [![License](https://img.shields.io/github/license/byhat/LoraClient)](LICENSE)
@@ -16,39 +18,39 @@
 
 ---
 
-## 📋 Описание проекта
+## 📋 Project Description
 
-**LoRaClient** — это современное десктопное приложение для отправки и получения данных через LoRa-модуль Ebyte E22-400T22U (или другого устройства работающего через последовательный порт аналогично этому). Приложение построено на базе чистой архитектуры и предоставляет удобный графический интерфейс на базе QML.
+**LoRaClient** is a modern desktop application for sending and receiving data via the LoRa module Ebyte E22-400T22U (or any other device operating via serial port similarly to this one). The application is built based on Clean Architecture and provides a convenient graphical interface based on QML.
 
-### 🌟 Основные возможности
+### 🌟 Key Features
 
-- 📤 **Отправка сообщений** — текстовых, изображений и файлов
-- 📥 **Прием данных** — автоматическая обработка входящих сообщений
-- 🔄 **Фрагментация** — автоматическое разбиение больших пакетов
-- ✅ **Подтверждение доставки** — ACK на уровне фрагмента и пакета
-- 🎨 **Современный UI** — интерфейс на QML с поддержкой темной темы
-- 🧪 **Покрытие тестами** — unit-тесты для всех use cases
-- 🏗️ **Clean Architecture** — разделение на слои domain, application, infrastructure, presentation
+- 📤 **Sending messages** — text, images, and files
+- 📥 **Data reception** — automatic processing of incoming messages
+- 🔄 **Fragmentation** — automatic splitting of large packets
+- ✅ **Delivery confirmation** — ACK at fragment and packet levels
+- 🎨 **Modern UI** — QML-based interface with dark theme support
+- 🧪 **Test coverage** — unit-tests for all use cases
+- 🏗️ **Clean Architecture** — separation into domain, application, infrastructure, presentation layers
 
 ---
 
-## 🎸 Демо
+## 🎸 Demo
 
 [![Watch the video](./doc/images/screen.png)](./doc/video/demo.mp4)
 
 ---
 
-## 🚀 Быстрый старт
+## 🚀 Quick Start
 
-### Требования
+### Requirements
 
 - **CMake** ≥ 3.19
 - **Qt6** (Core, Qml, Gui, SerialPort, Concurrent, Test, Gui)
-- **Компилятор** с поддержкой C++20 (GCC 10+, Clang 12+, MSVC 2019+)
-- **spdlog** — библиотека логирования
-- **GTest/GMock** — фреймворки для тестирования
+- **Compiler** with C++20 support (GCC 10+, Clang 12+, MSVC 2019+)
+- **spdlog** — logging library
+- **GTest/GMock** — testing frameworks
 
-### Установка зависимостей
+### Installing Dependencies
 
 #### Ubuntu/Debian
 
@@ -94,27 +96,27 @@ sudo pacman -S --needed \
     gtest
 ```
 
-### Сборка
+### Building
 
 ```bash
-# Клонируем репозиторий с подмодулями
+# Clone the repository with submodules
 git clone --recurse-submodules https://github.com/byhat/LoraClient.git
 cd LoraClient
 
-# Создаем директорию для сборки
+# Create a build directory
 mkdir -p build && cd build
 
-# Конфигурируем проект
+# Configure the project
 cmake .. -DCMAKE_BUILD_TYPE=Release
 
-# Собираем проект
+# Build the project
 cmake --build . --parallel
 
-# Запускаем
+# Run
 ./LoraClient
 ```
 
-### Запуск тестов
+### Running Tests
 
 ```bash
 cd build
@@ -123,86 +125,86 @@ cd build
 
 ---
 
-## 📁 Структура проекта
+## 📁 Project Structure
 
 ```
 LoraClient/
-├── LoraClient/              # Основное приложение
+├── LoraClient/              # Main application
 │   ├── src/
 │   │   ├── application/     # Application layer (AppEngine)
 │   │   ├── core/            # Business logic
-│   │   │   ├── entities/    # Сущности предметной области
+│   │   │   ├── entities/    # Domain entities
 │   │   │   └── usecases/    # Use cases (Connection, Send, Receive)
 │   │   ├── domain/          # Domain layer (interfaces)
 │   │   ├── infrastructure/  # Infrastructure layer (gateways, logging)
 │   │   └── presentation/    # Presentation layer (controllers, models, QML)
-│   ├── qml/                 # QML интерфейсы
-│   └── resources/           # Ресурсы (шрифты, иконки)
-├── tests/                   # Unit-тесты
-├── tools/                   # Дополнительные утилиты
-│   └── LoraEchoServer/      # Echo-сервер для тестирования
-└── doc/                     # Документация
+│   ├── qml/                 # QML interfaces
+│   └── resources/           # Resources (fonts, icons)
+├── tests/                   # Unit-tests
+├── tools/                   # Additional tools
+│   └── LoraEchoServer/      # Echo-server for testing
+└── doc/                     # Documentation
 ```
 
 ---
 
-## 🏗️ Архитектура
+## 🏗️ Architecture
 
-Проект построен по принципам **Clean Architecture**:
+The project is built according to the principles of **Clean Architecture**:
 
-- **Domain Layer** — содержит бизнес-логику и интерфейсы
-- **Application Layer** — оркестрация use cases
-- **Infrastructure Layer** — реализация внешних зависимостей (LoRa, логирование)
-- **Presentation Layer** — UI на QML и контроллеры
+- **Domain Layer** — contains business logic and interfaces
+- **Application Layer** — orchestration of use cases
+- **Infrastructure Layer** — implementation of external dependencies (LoRa, logging)
+- **Presentation Layer** — UI on QML and controllers
 
 ### Use Cases
 
-- **ConnectionUseCase** — управление подключением к LoRa-модулю
-- **SendUseCase** — отправка текста, изображений и файлов
-- **ReceiveUseCase** — прием и обработка входящих данных
+- **ConnectionUseCase** — managing connection to the LoRa module
+- **SendUseCase** — sending text, images, and files
+- **ReceiveUseCase** — receiving and processing incoming data
 
 ---
 
-## 📡 Протокол
+## 📡 Protocol
 
-| Параметр | Значение |
-|----------|---------|
-| Макс. размер фрейма | 26 байт данных + заголовок |
-| Фрагментация | Автоматическая для больших пакетов |
-| Подтверждение | ACK (фрагмент) + PACKET_ACK (пакет) |
-| Повторы | До 5 раз при потере ACK |
-| Таймаут | 1 секунда |
-| Контрольная сумма | CRC16 (ISO 3309) |
+| Parameter | Value |
+|----------|-------|
+| Max frame size | 26 bytes of data + header |
+| Fragmentation | Automatic for large packets |
+| Confirmation | ACK (fragment) + PACKET_ACK (packet) |
+| Retries | Up to 5 times on ACK loss |
+| Timeout | 1 second |
+| Checksum | CRC16 (ISO 3309) |
 
 ---
 
-## 🧪 Тестирование
+## 🧪 Testing
 
-Проект покрыт unit-тестами с использованием Google Test:
+The project is covered with unit-tests using Google Test:
 
 ```bash
-# Запуск всех тестов
+# Run all tests
 cd build
 ./tests/loraclient_tests
 
-# Запуск с выводом подробной информации
+# Run with verbose output
 ./tests/loraclient_tests --gtest_verbose
 
-# Запуск конкретного теста
+# Run a specific test
 ./tests/loraclient_tests --gtest_filter="SendUseCaseTest.SendTextCallsSendPacket"
 ```
 
-### Покрытие тестами
+### Test Coverage
 
-- ✅ ConnectionUseCase — 4 теста
-- ✅ ReceiveUseCase — 6 тестов
-- ✅ SendUseCase — 10 тестов
+- ✅ ConnectionUseCase — 4 tests
+- ✅ ReceiveUseCase — 6 tests
+- ✅ SendUseCase — 10 tests
 
 ---
 
-## 🔧 Echo-сервер (опционально)
+## 🔧 Echo-server (optional)
 
-Для тестирования можно собрать Echo-сервер:
+For testing, you can build the Echo-server:
 
 ```bash
 cd tools/LoraEchoServer
@@ -210,49 +212,49 @@ mkdir -p build && cd build
 cmake .. -DCMAKE_BUILD_TYPE=Release
 cmake --build . --parallel
 
-# Запуск
+# Run
 ./LoraCmd
 ```
 
 ---
 
-## 🤝 Вклад в проект
+## 🤝 Contributing
 
-Приветствую вклад в развитие проекта! Пожалуйста, следуйте этим правилам:
+Contributions to the development of the project are welcome! Please follow these rules:
 
-1. Создайте fork проекта
-2. Создайте ветку для вашей функции (`git checkout -b feature/AmazingFeature`)
-3. Закоммитьте изменения (`git commit -m 'Add some AmazingFeature'`)
-4. Запушьте в ветку (`git push origin feature/AmazingFeature`)
-5. Откройте Pull Request
-
----
-
-## 📝 Лицензия
-
-Этот проект распространяется под лицензией LGPL v2.1 — см. файл [LICENSE](LICENSE) для подробностей.
+1. Fork the project
+2. Create a branch for your feature (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
 ---
 
-## 👏 Благодарности
+## 📝 License
 
-- **Qt Framework** — отличный фреймворк для кроссплатформенной разработки
-- **spdlog** — быстрая C++ библиотека логирования
-- **Google Test** — фреймворк для тестирования C++ кода
-- **Ebyte** — за качественные LoRa-модули
+This project is licensed under the LGPL v2.1 license — see the [LICENSE](LICENSE) file for details.
 
 ---
 
-## 📞 Контакты
+## 👏 Acknowledgments
+
+- **Qt Framework** — excellent framework for cross-platform development
+- **spdlog** — fast C++ logging library
+- **Google Test** — framework for testing C++ code
+- **Ebyte** — for high-quality LoRa modules
+
+---
+
+## 📞 Contacts
 
 **byhat** — [GitHub](https://github.com/byhat)
 
-Ссылка на проект: [https://github.com/byhat/LoraClient](https://github.com/byhat/LoraClient)
+Project link: [https://github.com/byhat/LoraClient](https://github.com/byhat/LoraClient)
 
 ---
 
 <div align="center">
 
-**⭐ Если этот проект вам понравился, поставьте звезду! ⭐**
+**⭐ If you liked this project, give it a star! ⭐**
 
 </div>
