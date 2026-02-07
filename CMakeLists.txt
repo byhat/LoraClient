@@ -17,8 +17,10 @@ FetchContent_MakeAvailable(googletest)
 
 add_subdirectory(LoraClient)
 
-enable_testing()
-add_subdirectory(tests)
+if(NOT ANDROID)
+    enable_testing()
+    add_subdirectory(tests)
+endif()
 
 # documentation
 file(GLOB DOC_FILES
