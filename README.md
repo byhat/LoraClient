@@ -125,6 +125,87 @@ cd build
 
 ---
 
+## 📱 Android Build
+
+### Prerequisites
+
+- **Android NDK** ≥ r26 (tested with r26.1.10909125)
+- **Android SDK** with build-tools
+- **Qt6 for Android** (tested with 6.9.0)
+- **Ninja** build system
+- **ADB** (Android Debug Bridge) for deployment and logging
+- **Android device or emulator** connected via USB
+
+### Environment Variables
+
+Ensure you have the following paths available:
+- Android SDK: `C:/Users/User/AppData/Local/Android/Sdk` (or your installation path)
+- Android NDK: `C:/Users/User/AppData/Local/Android/Sdk/ndk/26.1.10909125` (or your NDK version)
+- Qt for Android: `C:/Qt/6.9.0/android_armv7` (or your Qt installation)
+- Ninja: `C:/Qt/Tools/Ninja/ninja.exe` (or your Ninja installation)
+
+### Building for Android
+
+```bash
+# Navigate to project directory
+cd LoraClient
+
+# Create build directory
+mkdir build\Android_Qt_6_9_0_Clang_armeabi_v7a-Debug
+cd build\Android_Qt_6_9_0_Clang_armeabi_v7a-Debug
+
+# Configure CMake for Android
+cmake -G Ninja   -DCMAKE_MAKE_PROGRAM=C:/Qt/Tools/Ninja/ninja.exe  -DCMAKE_TOOLCHAIN_FILE=C:/Users/User/AppData/Local/Android/Sdk/ndk/26.1.10909125/build/cmake/android.toolchain.cmake  -DANDROID_ABI=armeabi-v7a  -DANDROID_PLATFORM=android-23  -DCMAKE_PREFIX_PATH=C:/Qt/6.9.0/android_armv7   -DCMAKE_BUILD_TYPE=Debug  -DCMAKE_FIND_ROOT_PATH="C:/Users/User/AppData/Local/Android/Sdk/ndk/26.1.10909125;C:/Qt/6.9.0/android_armv7"    -DCMAKE_FIND_ROOT_PATH_MODE_PACKAGE=BOTH  -DANDROID_SDK_ROOT=C:/Users/User/AppData/Local/Android/Sdk   ../..
+
+# Build the project
+cmake --build .
+```
+
+### Installing APK to Device
+
+```bash
+# Check if device is connected
+C:\Users\User\AppData\Local\Android\Sdk\platform-tools\adb.exe devices
+
+# Install the APK (replace path with your build output)
+C:\Users\User\AppData\Local\Android\Sdk\platform-tools\adb.exe install -r C:\CODE\LoraClient\build\Android_Qt_6_9_0_Clang_armeabi_v7a-Debug\LoraClient\android-build\build\outputs\apk\debug\android-build-debug.apk
+```
+
+### Running the Application
+
+```bash
+# Start the application
+C:\Users\User\AppData\Local\Android\Sdk\platform-tools\adb.exe shell am start -n org.qtproject.example.LoraClient/org.qtproject.qt.android.bindings.QtActivity
+```
+
+### Viewing Logs
+
+```bash
+# View all logs
+C:\Users\User\AppData\Local\Android\Sdk\platform-tools\adb.exe logcat
+
+# View logs filtered for LoraClient and Qt
+C:\Users\User\AppData\Local\Android\Sdk\platform-tools\adb.exe logcat -s "LoraClient:*" "Qt:*"
+
+# View logs filtered for errors
+C:\Users\User\AppData\Local\Android\Sdk\platform-tools\adb.exe logcat -s "*:E"
+
+# View logs for a specific process (replace PID with actual process ID)
+C:\Users\User\AppData\Local\Android\Sdk\platform-tools\adb.exe logcat --pid=<PID>
+
+# Clear log buffer
+C:\Users\User\AppData\Local\Android\Sdk\platform-tools\adb.exe logcat -c
+```
+
+### Troubleshooting
+
+- **CMake cannot find Qt6**: Ensure `CMAKE_PREFIX_PATH` points to your Qt for Android installation
+- **Ninja not found**: Set `CMAKE_MAKE_PROGRAM` to the full path of ninja.exe
+- **Android SDK build tools error**: Set `ANDROID_SDK_ROOT` to your Android SDK path
+- **Device not found**: Ensure USB debugging is enabled on your Android device and the device is connected via USB
+
+---
+
 ## 📁 Project Structure
 
 ```
