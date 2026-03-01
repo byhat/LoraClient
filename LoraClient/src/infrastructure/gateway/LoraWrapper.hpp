@@ -24,7 +24,7 @@ public:
     explicit LoraWrapper(QObject *parent = nullptr) {
         m_loraWorker = std::make_unique<LoRaWorker>(parent);
         // m_loraWorker = std::make_unique<LoRaWorker>();
-        // m_loraWorker->moveToThread(&m_workerThread);
+        m_loraWorker->moveToThread(&m_workerThread);
 
         connectSignals();
     }
@@ -40,11 +40,13 @@ public slots:
      */
     void openPort(const QString &portName, qint32 baud = 9600) override {
         try {
-            // QMetaObject::invokeMethod(
-            //     m_loraWorker.get(),
-            //     "openPort",
-            //     Qt::QueuedConnection
-            //     );
+            QMetaObject::invokeMethod(
+                m_loraWorker.get(),
+                "openPort",
+                portName,
+                baud,
+                Qt::QueuedConnection
+                );
             m_loraWorker->openPort(portName, baud);
         } catch(...) {
             emit errorOccurred("LoRaWorker is not initialized");
@@ -56,12 +58,12 @@ public slots:
      */
     void closePort() noexcept override {
         try {
-            // QMetaObject::invokeMethod(
-            //     m_loraWorker.get(),
-            //     "closePort",
-            //     Qt::QueuedConnection
-            //     );
-            m_loraWorker->closePort();
+            QMetaObject::invokeMethod(
+                m_loraWorker.get(),
+                "closePort",
+                Qt::QueuedConnection
+                );
+            // m_loraWorker->closePort();
             emit portOpened(false);
         } catch(...) {
             emit errorOccurred("LoRaWorker is not initialized");
@@ -75,13 +77,13 @@ public slots:
      */
     void sendPacket(const QByteArray &data) override {
         try {
-            // QMetaObject::invokeMethod(
-            //     m_loraWorker.get(),
-            //     "sendPacket",
-            //     Qt::QueuedConnection,
-            //     Q_ARG(QByteArray, data)
-            //     );
-            m_loraWorker->sendPacket(data);
+            QMetaObject::invokeMethod(
+                m_loraWorker.get(),
+                "sendPacket",
+                Qt::QueuedConnection,
+                Q_ARG(QByteArray, data)
+                );
+            // m_loraWorker->sendPacket(data);
         } catch(...) {
             emit errorOccurred("LoRaWorker is not initialized");
         }
