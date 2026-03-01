@@ -74,8 +74,7 @@ void QmlController::onOpenPort()
     settings["portName"] = m_portName;
     settings["baud"]     = m_baudRate;
 
-    emit setSettings(settings);
-    emit openPort();
+    emit openPort(settings);
 }
 
 void QmlController::onClosePort()

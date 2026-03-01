@@ -9,7 +9,7 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # find libs
-find_package(Qt6 COMPONENTS Core Qml Gui Concurrent REQUIRED)
+find_package(Qt6 COMPONENTS Core Qml Gui Concurrent SerialPort REQUIRED)
 # spdlog dependency via FetchContent
 include(FetchContent)
 FetchContent_Declare(

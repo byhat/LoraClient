@@ -6,14 +6,19 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(Qt6 COMPONENTS Core Qml Gui Concurrent REQUIRED)
-# GoogleTest
-include(FetchContent)
-FetchContent_Declare(
-  googletest
-  URL https://github.com/google/googletest/archive/refs/tags/v1.14.0.zip
-)
-FetchContent_MakeAvailable(googletest)
+option(BUILD_TESTS "BUILD UNIT TESTS" OFF)
+
+find_package(Qt6 COMPONENTS Core Qml Gui Concurrent SerialPort REQUIRED)
+
+if(BUILD_TESTS)
+    # GoogleTest
+    include(FetchContent)
+    FetchContent_Declare(
+      googletest
+      URL https://github.com/google/googletest/archive/refs/tags/v1.14.0.zip
+    )
+    FetchContent_MakeAvailable(googletest)
+endif()
 
 if(ANDROID)
     set(ANDROID_PACKAGE_SOURCE_DIR "${CMAKE_SOURCE_DIR}/android")
@@ -51,7 +56,7 @@ endif()
 
 add_subdirectory(LoraClient)
 
-if(NOT ANDROID)
+if(BUILD_TESTS)
     enable_testing()
     add_subdirectory(tests)
 endif()

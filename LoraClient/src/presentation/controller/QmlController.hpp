@@ -74,7 +74,7 @@ signals:
     void receiveProgressChanged();
 
     // actions request signals from qml
-    void openPort();
+    void openPort(QVariantHash settings);
     void setSettings(QVariantHash settings);
     void closePort();
     void getInterfacesList();

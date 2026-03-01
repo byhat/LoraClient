@@ -107,7 +107,7 @@ Page {
                     onClicked: {
                         appEngine.portName = portSelector.currentText
                         appEngine.baudRate = parseInt(baudSelector.currentText)
-                        appEngine.openPort()
+                        appEngine.onOpenPort()
                     }
                     enabled: !appEngine.isConnected
 

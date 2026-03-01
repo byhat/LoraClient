@@ -114,14 +114,12 @@ void AppEngine::setupSendUcConnections()
 void AppEngine::setupConnectionUcConnections()
 {
     connect(m_controller.get(),
-            &QmlController::setSettings,
-            m_connectionUseCase.get(),
-            &ConnectionUseCase::setSettings);
-
-    connect(m_controller.get(),
             &QmlController::openPort,
-            m_connectionUseCase.get(),
-            &ConnectionUseCase::connect);
+            this,
+            [this](QVariantHash settings) {
+                m_connectionUseCase->setSettings(settings);
+                m_connectionUseCase->connect();
+            });
 
     connect(m_controller.get(),
             &QmlController::closePort,
