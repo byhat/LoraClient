@@ -119,6 +119,42 @@ PRIVATE
     spdlog::spdlog
 )
 
+if(ANDROID)
+    set(ANDROID_PACKAGE_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../android")
+    
+    # Add Android files to the executable
+    target_sources(${PROJECT_NAME} PRIVATE
+        # Android manifest
+        ${ANDROID_PACKAGE_SOURCE_DIR}/AndroidManifest.xml
+        
+        # Gradle files
+        ${ANDROID_PACKAGE_SOURCE_DIR}/build.gradle
+        ${ANDROID_PACKAGE_SOURCE_DIR}/gradle.properties
+        
+        # Android resources - values
+        ${ANDROID_PACKAGE_SOURCE_DIR}/res/values/libs.xml
+        ${ANDROID_PACKAGE_SOURCE_DIR}/res/values/splashscreentheme.xml
+        ${ANDROID_PACKAGE_SOURCE_DIR}/res/values/strings.xml
+        
+        # Android resources - xml
+        ${ANDROID_PACKAGE_SOURCE_DIR}/res/xml/device_filter.xml
+        ${ANDROID_PACKAGE_SOURCE_DIR}/res/xml/qtprovider_paths.xml
+    )
+    
+    set_target_properties(${PROJECT_NAME} PROPERTIES
+        QT_ANDROID_PACKAGE_SOURCE_DIR "${ANDROID_PACKAGE_SOURCE_DIR}"
+        ANDROID_GUI TRUE
+        QT_ANDROID_DEPLOYQT_OPTIONS "--verbose"
+    )
+    
+    # Qt6 Android-specific policies and finalization
+    if(${QT_VERSION_MAJOR} GREATER_EQUAL 6 AND ANDROID)
+        qt_policy(SET QTP0001 NEW)
+        qt_policy(SET QTP0002 NEW)
+        qt_finalize_executable(${PROJECT_NAME})
+    endif()
+endif()
+
 include(GNUInstallDirs)
 install(TARGETS ${PROJECT_NAME}
     BUNDLE DESTINATION .
