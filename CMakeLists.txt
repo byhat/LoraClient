@@ -24,28 +24,28 @@ if(ANDROID)
     
     # Copy Java files from QCrossPlatformSerial library to android/src
     file(COPY
-        LoraClient/src/infrastructure/gateway/LoRaCore/thirdparty/QCrossPlatformSerial/android/src/org/qtcrossplatformserial/UsbSerialManager.java
-        DESTINATION android/src/org/qtcrossplatformserial/
+        ${CMAKE_SOURCE_DIR}/LoraClient/src/infrastructure/gateway/LoRaCore/thirdparty/QCrossPlatformSerial/android/src/org/qtcrossplatformserial/UsbSerialManager.java
+        DESTINATION ${CMAKE_SOURCE_DIR}/android/src/org/qtcrossplatformserial/
     )
     file(COPY
-        LoraClient/src/infrastructure/gateway/LoRaCore/thirdparty/QCrossPlatformSerial/android/src/org/qtcrossplatformserial/JniUsbSerial.java
-        DESTINATION android/src/org/qtcrossplatformserial/
+        ${CMAKE_SOURCE_DIR}/LoraClient/src/infrastructure/gateway/LoRaCore/thirdparty/QCrossPlatformSerial/android/src/org/qtcrossplatformserial/JniUsbSerial.java
+        DESTINATION ${CMAKE_SOURCE_DIR}/android/src/org/qtcrossplatformserial/
     )
     file(COPY
-        LoraClient/src/infrastructure/gateway/LoRaCore/thirdparty/QCrossPlatformSerial/android/src/org/qtcrossplatformserial/SerialInputOutputManager.java
-        DESTINATION android/src/org/qtcrossplatformserial/
+        ${CMAKE_SOURCE_DIR}/LoraClient/src/infrastructure/gateway/LoRaCore/thirdparty/QCrossPlatformSerial/android/src/org/qtcrossplatformserial/SerialInputOutputManager.java
+        DESTINATION ${CMAKE_SOURCE_DIR}/android/src/org/qtcrossplatformserial/
     )
     file(COPY
-        LoraClient/src/infrastructure/gateway/LoRaCore/thirdparty/QCrossPlatformSerial/android/src/org/qtserial/UsbSerialManager.java
-        DESTINATION android/src/org/qtserial/
+        ${CMAKE_SOURCE_DIR}/LoraClient/src/infrastructure/gateway/LoRaCore/thirdparty/QCrossPlatformSerial/android/src/org/qtserial/UsbSerialManager.java
+        DESTINATION ${CMAKE_SOURCE_DIR}/android/src/org/qtserial/
     )
     file(COPY
-        LoraClient/src/infrastructure/gateway/LoRaCore/thirdparty/QCrossPlatformSerial/android/src/org/qtserial/JniUsbSerial.java
-        DESTINATION android/src/org/qtserial/
+        ${CMAKE_SOURCE_DIR}/LoraClient/src/infrastructure/gateway/LoRaCore/thirdparty/QCrossPlatformSerial/android/src/org/qtserial/JniUsbSerial.java
+        DESTINATION ${CMAKE_SOURCE_DIR}/android/src/org/qtserial/
     )
     file(COPY
-        LoraClient/src/infrastructure/gateway/LoRaCore/thirdparty/QCrossPlatformSerial/android/src/org/qtserial/SerialInputOutputManager.java
-        DESTINATION android/src/org/qtserial/
+        ${CMAKE_SOURCE_DIR}/LoraClient/src/infrastructure/gateway/LoRaCore/thirdparty/QCrossPlatformSerial/android/src/org/qtserial/SerialInputOutputManager.java
+        DESTINATION ${CMAKE_SOURCE_DIR}/android/src/org/qtserial/
     )
 endif()
 
