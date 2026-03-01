@@ -3,7 +3,7 @@
 #include <QVariantList>
 #include <QVariantMap>
 #include <QImage>
-#include <QSerialPortInfo>
+#include "QCrossPlatformSerialPortInfo.hpp"
 
 #include "src/core/entities/MsgStructures.hpp"
 

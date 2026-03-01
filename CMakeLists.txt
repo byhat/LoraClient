@@ -6,7 +6,7 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(Qt6 COMPONENTS Core Qml Gui SerialPort Concurrent REQUIRED)
+find_package(Qt6 COMPONENTS Core Qml Gui Concurrent REQUIRED)
 # GoogleTest
 include(FetchContent)
 FetchContent_Declare(
@@ -18,6 +18,9 @@ FetchContent_MakeAvailable(googletest)
 if(ANDROID)
     set(ANDROID_PACKAGE_SOURCE_DIR "${CMAKE_SOURCE_DIR}/android")
     set(QT_ANDROID_TARGET_SDK_VERSION "34")
+    # Explicitly set Android SDK versions to avoid Qt defaulting to 35
+    set(CMAKE_ANDROID_API 34)
+    set(CMAKE_ANDROID_BUILD_TOOLS_VERSION "34.0.0")
     
     # Copy Java files from QCrossPlatformSerial library to android/src
     file(COPY

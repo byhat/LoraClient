@@ -9,7 +9,7 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # find libs
-find_package(Qt6 COMPONENTS Core Qml Gui SerialPort Concurrent REQUIRED)
+find_package(Qt6 COMPONENTS Core Qml Gui Concurrent REQUIRED)
 # spdlog dependency via FetchContent
 include(FetchContent)
 FetchContent_Declare(
@@ -113,7 +113,6 @@ PRIVATE
     Qt6::Core
     Qt6::Qml
     Qt6::Gui
-    Qt6::SerialPort
     Qt6::Concurrent
     LoRaCore::LoRaCore
     spdlog::spdlog
@@ -139,6 +138,11 @@ if(ANDROID)
         # Android resources - xml
         ${ANDROID_PACKAGE_SOURCE_DIR}/res/xml/device_filter.xml
         ${ANDROID_PACKAGE_SOURCE_DIR}/res/xml/qtprovider_paths.xml
+        
+        # Java sources for USB serial support
+        ${ANDROID_PACKAGE_SOURCE_DIR}/src/org/qtcrossplatformserial/JniUsbSerial.java
+        ${ANDROID_PACKAGE_SOURCE_DIR}/src/org/qtcrossplatformserial/SerialInputOutputManager.java
+        ${ANDROID_PACKAGE_SOURCE_DIR}/src/org/qtcrossplatformserial/UsbSerialManager.java
     )
     
     set_target_properties(${PROJECT_NAME} PROPERTIES
@@ -148,7 +152,7 @@ if(ANDROID)
     )
     
     # Qt6 Android-specific policies and finalization
-    if(${QT_VERSION_MAJOR} GREATER_EQUAL 6 AND ANDROID)
+    if(ANDROID)
         qt_policy(SET QTP0001 NEW)
         qt_policy(SET QTP0002 NEW)
         qt_finalize_executable(${PROJECT_NAME})

@@ -2,7 +2,7 @@
 
 #include <QThread>
 #include <QByteArray>
-#include <QSerialPortInfo>
+#include "QCrossPlatformSerialPortInfo.hpp"
 
 #include "src/domain/interfaces/IConnectionWorker.hpp"
 #include <LoRaWorker.hpp>
@@ -93,7 +93,7 @@ public slots:
      * @return QStringList Список имён доступных портов
      */
     QStringList getInterfacesList() override {
-        QList<QSerialPortInfo> lst = QSerialPortInfo::availablePorts();
+        QList<QCrossPlatformSerialPortInfo> lst = QCrossPlatformSerialPortInfo::availablePorts();
 
         QStringList ports;
         ports.reserve(lst.size());
