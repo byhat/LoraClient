@@ -25,11 +25,15 @@ public:
         m_loraWorker = std::make_unique<LoRaWorker>(parent);
         // m_loraWorker = std::make_unique<LoRaWorker>();
         m_loraWorker->moveToThread(&m_workerThread);
+        m_workerThread.start();
 
         connectSignals();
     }
 
-    ~LoraWrapper() = default;
+    ~LoraWrapper() {
+        m_workerThread.quit();
+        m_workerThread.wait();
+    }
 
 public slots:
     /**
