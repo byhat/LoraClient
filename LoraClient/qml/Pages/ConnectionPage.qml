@@ -15,6 +15,8 @@ Page {
         anchors.fill: parent
         anchors.margins: 12
 
+        clip: true
+
         ColumnLayout {
             width: parent.width
             spacing: 12

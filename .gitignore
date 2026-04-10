@@ -49,3 +49,7 @@ __pycache__/
 *.so
 .PyInstaller/
 ```
+
+# Other
+android/src/
+tools/

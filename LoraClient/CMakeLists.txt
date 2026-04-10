@@ -140,9 +140,9 @@ if(ANDROID)
         ${ANDROID_PACKAGE_SOURCE_DIR}/res/xml/qtprovider_paths.xml
         
         # Java sources for USB serial support
-        ${ANDROID_PACKAGE_SOURCE_DIR}/src/org/qtcrossplatformserial/JniUsbSerial.java
-        ${ANDROID_PACKAGE_SOURCE_DIR}/src/org/qtcrossplatformserial/SerialInputOutputManager.java
-        ${ANDROID_PACKAGE_SOURCE_DIR}/src/org/qtcrossplatformserial/UsbSerialManager.java
+        ${ANDROID_PACKAGE_SOURCE_DIR}/src/org/qtserial/JniUsbSerial.java
+        ${ANDROID_PACKAGE_SOURCE_DIR}/src/org/qtserial/SerialInputOutputManager.java
+        ${ANDROID_PACKAGE_SOURCE_DIR}/src/org/qtserial/UsbSerialManager.java
     )
     
     set_target_properties(${PROJECT_NAME} PROPERTIES
