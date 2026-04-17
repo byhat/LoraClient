@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.16)
 
 # options
+unset(LET_IT_SNOW CACHE)
 option(LET_IT_SNOW "Shows snow effect" OFF)
 
 set(CMAKE_AUTOMOC ON)
