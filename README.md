@@ -195,6 +195,8 @@ C:\Users\User\AppData\Local\Android\Sdk\platform-tools\adb.exe logcat --pid=<PID
 
 # Clear log buffer
 C:\Users\User\AppData\Local\Android\Sdk\platform-tools\adb.exe logcat -c
+
+adb logcat --pid=$(adb shell pidof org.loraclient.app)
 ```
 
 ### Troubleshooting
