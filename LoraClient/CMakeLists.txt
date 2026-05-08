@@ -58,6 +58,9 @@ qt_add_executable(${PROJECT_NAME}
 
     src/presentation/controller/QmlController.hpp
     src/presentation/controller/QmlController.cpp
+    
+    resources/icons/icon.ico
+    resources/icons/app.rc
 )
 
 # check snow option
