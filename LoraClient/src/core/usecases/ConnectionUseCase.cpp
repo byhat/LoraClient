@@ -35,8 +35,8 @@ void ConnectionUseCase::connect()
     try {
         m_connector->openPort(portName, baud);
     } catch(...) {
-        emit errorOccured("Gateway adaprer is not initialized");
         if (m_logger) m_logger->log(infrastructure::LogLevel::Error, "Gateway adapter not initialized on openPort");
+        emit errorOccured("Gateway adaprer is not initialized");
     }
 }
 
@@ -47,8 +47,8 @@ void ConnectionUseCase::disconnect()
     try {
         m_connector->closePort();
     } catch(...) {
-        emit errorOccured("Gateway adaprer is not initialized");
         if (m_logger) m_logger->log(infrastructure::LogLevel::Error, "Gateway adapter not initialized on closePort");
+        emit errorOccured("Gateway adaprer is not initialized");
     }
 }
 
@@ -64,8 +64,8 @@ void ConnectionUseCase::getInterfacesList()
         emit updateInterfacesList(m_connector->getInterfacesList());
         return;
     } catch(...) {
-        emit errorOccured("Gateway adaprer is not initialized");
         if (m_logger) m_logger->log(infrastructure::LogLevel::Error, "Gateway adapter not initialized on getInterfacesList");
+        emit errorOccured("Gateway adaprer is not initialized");
     }
 
     emit updateInterfacesList(QStringList{});

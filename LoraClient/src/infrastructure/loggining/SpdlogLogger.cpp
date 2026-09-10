@@ -2,6 +2,7 @@
 #include <spdlog/sinks/rotating_file_sink.h>
 #include <spdlog/async.h>
 #include <spdlog/pattern_formatter.h>
+#include <chrono>
 #include <filesystem>
 
 namespace infrastructure {
@@ -13,6 +14,8 @@ SpdlogLogger::SpdlogLogger() {
     logger_ = spdlog::rotating_logger_mt("LoraClient", "logs/log.txt", 1073741824, 4);
     logger_->set_pattern("[%Y-%m-%d %H:%M:%S.%e] [%l] %v");
     logger_->set_level(spdlog::level::info);
+    logger_->flush_on(spdlog::level::trace);
+    spdlog::flush_every(std::chrono::seconds(1));
 }
 
 void SpdlogLogger::log(LogLevel level, const std::string &msg) {
