@@ -1,5 +1,4 @@
 #include <gtest/gtest.h>
-#include <QtTest/QSignalSpy>
 #include <QFile>
 #include <QTemporaryFile>
 #include <QImage>
@@ -7,6 +6,7 @@
 #include "../LoraClient/src/core/usecases/SendUseCase.hpp"
 #include "../LoraClient/src/core/entities/MsgStructures.hpp"
 #include "MockConnectionWorker.hpp"
+#include "MockListeners.hpp"
 
 using namespace testing;
 
@@ -16,14 +16,16 @@ protected:
         usecase = std::make_unique<SendUseCase>();
         mockWorker = std::make_shared<MockConnectionWorker>();
         usecase->setConnector(mockWorker);
+        usecase->setListener(&listener);
     }
     std::unique_ptr<SendUseCase> usecase;
     std::shared_ptr<MockConnectionWorker> mockWorker;
+    MockSendListener listener;
 };
 
 TEST_F(SendUseCaseTest, SendTextCallsSendPacket) {
     QString testMessage = "Hello LoRa!";
-    
+
     // Expect sendPacket to be called with a packet starting with Text type
     EXPECT_CALL(*mockWorker, sendPacket(_))
         .Times(1)
@@ -32,16 +34,14 @@ TEST_F(SendUseCaseTest, SendTextCallsSendPacket) {
             EXPECT_EQ(static_cast<int>(data[0]), AppEnums::MSG_TYPE::Text);
         });
 
-    QSignalSpy errorSpy(usecase.get(), &SendUseCase::errorOccured);
+    EXPECT_CALL(listener, onSendError(_)).Times(0);
 
     usecase->sendText(testMessage);
-
-    EXPECT_EQ(errorSpy.count(), 0);
 }
 
 TEST_F(SendUseCaseTest, SendTextWithEmptyMessage) {
     QString emptyMessage = "";
-    
+
     EXPECT_CALL(*mockWorker, sendPacket(_))
         .Times(1)
         .WillOnce([](const QByteArray &data) {
@@ -49,18 +49,16 @@ TEST_F(SendUseCaseTest, SendTextWithEmptyMessage) {
             EXPECT_EQ(static_cast<int>(data[0]), AppEnums::MSG_TYPE::Text);
         });
 
-    QSignalSpy errorSpy(usecase.get(), &SendUseCase::errorOccured);
+    EXPECT_CALL(listener, onSendError(_)).Times(0);
 
     usecase->sendText(emptyMessage);
-
-    EXPECT_EQ(errorSpy.count(), 0);
 }
 
 TEST_F(SendUseCaseTest, SendImageWithValidFile) {
     // Create a temporary image file
     QTemporaryFile tempFile;
     tempFile.open();
-    
+
     QImage testImage(100, 100, QImage::Format_RGB32);
     testImage.fill(Qt::blue);
     testImage.save(&tempFile, "PNG");
@@ -74,27 +72,21 @@ TEST_F(SendUseCaseTest, SendImageWithValidFile) {
             EXPECT_EQ(static_cast<int>(data[0]), AppEnums::MSG_TYPE::Image);
         });
 
-    QSignalSpy errorSpy(usecase.get(), &SendUseCase::errorOccured);
+    EXPECT_CALL(listener, onSendError(_)).Times(0);
 
     usecase->sendImage(tempFile.fileName());
-
-    EXPECT_EQ(errorSpy.count(), 0);
 }
 
 TEST_F(SendUseCaseTest, SendImageWithInvalidFile) {
     QString invalidPath = "/nonexistent/path/to/image.png";
-    
-    EXPECT_CALL(*mockWorker, sendPacket(_))
-        .Times(0);
 
-    QSignalSpy errorSpy(usecase.get(), &SendUseCase::errorOccured);
+    EXPECT_CALL(*mockWorker, sendPacket(_)).Times(0);
+
+    QString errorMsg;
+    EXPECT_CALL(listener, onSendError(_)).WillOnce(SaveArg<0>(&errorMsg));
 
     usecase->sendImage(invalidPath);
 
-    EXPECT_EQ(errorSpy.count(), 1);
-    
-    QList<QVariant> arguments = errorSpy.takeFirst();
-    QString errorMsg = arguments.at(0).toString();
     EXPECT_TRUE(errorMsg.contains("Could not open image file"));
 }
 
@@ -113,27 +105,21 @@ TEST_F(SendUseCaseTest, SendFileWithValidFile) {
             EXPECT_EQ(static_cast<int>(data[0]), AppEnums::MSG_TYPE::File);
         });
 
-    QSignalSpy errorSpy(usecase.get(), &SendUseCase::errorOccured);
+    EXPECT_CALL(listener, onSendError(_)).Times(0);
 
     usecase->sendFile(tempFile.fileName());
-
-    EXPECT_EQ(errorSpy.count(), 0);
 }
 
 TEST_F(SendUseCaseTest, SendFileWithInvalidPath) {
     QString invalidPath = "/nonexistent/path/to/file.txt";
-    
-    EXPECT_CALL(*mockWorker, sendPacket(_))
-        .Times(0);
 
-    QSignalSpy errorSpy(usecase.get(), &SendUseCase::errorOccured);
+    EXPECT_CALL(*mockWorker, sendPacket(_)).Times(0);
+
+    QString errorMsg;
+    EXPECT_CALL(listener, onSendError(_)).WillOnce(SaveArg<0>(&errorMsg));
 
     usecase->sendFile(invalidPath);
 
-    EXPECT_EQ(errorSpy.count(), 1);
-    
-    QList<QVariant> arguments = errorSpy.takeFirst();
-    QString errorMsg = arguments.at(0).toString();
     EXPECT_TRUE(errorMsg.contains("Could not open file"));
 }
 
@@ -152,38 +138,26 @@ TEST_F(SendUseCaseTest, SendFileWithLongFilename) {
             EXPECT_EQ(static_cast<int>(data[0]), AppEnums::MSG_TYPE::File);
         });
 
-    QSignalSpy errorSpy(usecase.get(), &SendUseCase::errorOccured);
+    EXPECT_CALL(listener, onSendError(_)).Times(0);
 
     usecase->sendFile(tempFile.fileName());
-
-    EXPECT_EQ(errorSpy.count(), 0);
 }
 
 TEST_F(SendUseCaseTest, NullConnectorEmitsErrorSignal) {
-    // Set connector to nullptr
-    // Note: The actual implementation will crash when m_connector is null
-    // because it dereferences the null pointer before the try-catch can catch it.
-    // This is a known issue in the SendUseCase implementation.
-    // For now, we'll skip this test to avoid the crash.
-    
-    // If the implementation is fixed to check for null before dereferencing,
-    // uncomment below:
-    // usecase->setConnector(nullptr);
-    // QString testMessage = "Hello LoRa!";
-    // QSignalSpy errorSpy(usecase.get(), &SendUseCase::errorOccured);
-    // usecase->sendText(testMessage);
-    // EXPECT_EQ(errorSpy.count(), 1);
-    // QList<QVariant> arguments = errorSpy.takeFirst();
-    // QString errorMsg = arguments.at(0).toString();
-    // EXPECT_TRUE(errorMsg.contains("Gateway adaprer is not initialized"));
-    
-    // For now, just mark as passed if we get here without calling sendText
-    SUCCEED();
+    usecase->setConnector(nullptr);
+    QString testMessage = "Hello LoRa!";
+    QString errorMsg;
+    EXPECT_CALL(*mockWorker, sendPacket(_)).Times(0);
+    EXPECT_CALL(listener, onSendError(_)).WillOnce(SaveArg<0>(&errorMsg));
+
+    usecase->sendText(testMessage);
+
+    EXPECT_TRUE(errorMsg.contains("Gateway adaprer is not initialized"));
 }
 
 TEST_F(SendUseCaseTest, MultipleSendOperations) {
     QString testMessage = "Test message";
-    
+
     // Test sending multiple text messages
     EXPECT_CALL(*mockWorker, sendPacket(_))
         .Times(3)
@@ -192,13 +166,11 @@ TEST_F(SendUseCaseTest, MultipleSendOperations) {
             EXPECT_EQ(static_cast<int>(data[0]), AppEnums::MSG_TYPE::Text);
         });
 
-    QSignalSpy errorSpy(usecase.get(), &SendUseCase::errorOccured);
+    EXPECT_CALL(listener, onSendError(_)).Times(0);
 
     usecase->sendText(testMessage);
     usecase->sendText(testMessage + " 2");
     usecase->sendText(testMessage + " 3");
-
-    EXPECT_EQ(errorSpy.count(), 0);
 }
 
 TEST_F(SendUseCaseTest, SendEmptyImageFile) {
@@ -214,9 +186,7 @@ TEST_F(SendUseCaseTest, SendEmptyImageFile) {
             EXPECT_EQ(static_cast<int>(data[0]), AppEnums::MSG_TYPE::Image);
         });
 
-    QSignalSpy errorSpy(usecase.get(), &SendUseCase::errorOccured);
+    EXPECT_CALL(listener, onSendError(_)).Times(0);
 
     usecase->sendImage(tempFile.fileName());
-
-    EXPECT_EQ(errorSpy.count(), 0);
 }

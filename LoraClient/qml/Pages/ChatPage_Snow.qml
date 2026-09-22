@@ -154,7 +154,7 @@ Page {
                 text: "Отправить"
                 onClicked: {
                     if (messageInput.text.trim() !== "") {
-                        appEngine.sendTextMessage(messageInput.text.trim())
+                        appEngine.onSendText(messageInput.text.trim())
                         messageInput.text = ""
                     }
                 }

@@ -12,10 +12,10 @@ AppEngine::AppEngine(QObject *parent)
     : QObject { parent }
     , m_connector         { std::make_shared<LoraWrapper>(this)                }
     , m_logger            { std::make_shared<infrastructure::SpdlogLogger>()   }
-    , m_sendUseCase       { std::make_unique<SendUseCase>(this)                }
-    , m_receiveUseCase    { std::make_unique<ReceiveUseCase>(this)             }
-    , m_connectionUseCase { std::make_unique<ConnectionUseCase>(this)          }
-    , m_saveImageUseCase  { std::make_unique<SaveImageUseCase>(this)           }
+    , m_sendUseCase       { std::make_shared<SendUseCase>()                  }
+    , m_receiveUseCase    { std::make_unique<ReceiveUseCase>()               }
+    , m_connectionUseCase { std::make_shared<ConnectionUseCase>()             }
+    , m_saveImageUseCase  { std::make_shared<SaveImageUseCase>()              }
     , m_controller        { std::make_unique<QmlController>(this)              }
     , m_engine            { std::make_unique<QQmlApplicationEngine>(this)      }
 {
@@ -74,67 +74,26 @@ void AppEngine::setConnector()
 void AppEngine::setupConnections()
 {
     setupReceiveUcConnections();
-    setupSendUcConnections();
     setupConnectionUcConnections();
     setupConnectionWConnections();
     setupSaveImageUcConnections();
+    setupControllerUseCases();
 }
 
 void AppEngine::setupReceiveUcConnections()
 {
-    connect(m_receiveUseCase.get(),
-            &ReceiveUseCase::txtReceived,
-            m_controller.get(),
-            &QmlController::textReceived);
+    connect(m_connector.get(),
+            &IConnectionWorker::packetReceived,
+            this,
+            [this](const QByteArray &data) { m_receiveUseCase->handleData(data); },
+            Qt::QueuedConnection);
 
-    connect(m_receiveUseCase.get(),
-            &ReceiveUseCase::imageReceived,
-            m_controller.get(),
-            &QmlController::imageReceived);
-}
-
-void AppEngine::setupSendUcConnections()
-{
-    connect(m_controller.get(),
-            &QmlController::sendText,
-            m_sendUseCase.get(),
-            &SendUseCase::sendText);
-
-    connect(m_controller.get(),
-            &QmlController::sendFile,
-            m_sendUseCase.get(),
-            &SendUseCase::sendFile);
-
-    connect(m_controller.get(),
-            &QmlController::sendImage,
-            m_sendUseCase.get(),
-            &SendUseCase::sendImage);
+    m_receiveUseCase->setListener(m_controller.get());
 }
 
 void AppEngine::setupConnectionUcConnections()
 {
-    connect(m_controller.get(),
-            &QmlController::openPort,
-            this,
-            [this](QVariantHash settings) {
-                m_connectionUseCase->setSettings(settings);
-                m_connectionUseCase->connect();
-            });
-
-    connect(m_controller.get(),
-            &QmlController::closePort,
-            m_connectionUseCase.get(),
-            &ConnectionUseCase::disconnect);
-
-    connect(m_controller.get(),
-            &QmlController::getInterfacesList,
-            m_connectionUseCase.get(),
-            &ConnectionUseCase::getInterfacesList);
-
-    connect(m_connectionUseCase.get(),
-            &ConnectionUseCase::updateInterfacesList,
-            m_controller.get(),
-            &QmlController::onUpdateInterfacesList);
+    m_connectionUseCase->setListener(m_controller.get());
 }
 
 void AppEngine::setupConnectionWConnections()
@@ -162,5 +121,13 @@ void AppEngine::setupConnectionWConnections()
 
 void AppEngine::setupSaveImageUcConnections()
 {
-    m_controller->setSaveImageUseCase(m_saveImageUseCase.get());
+    m_saveImageUseCase->setListener(m_controller.get());
+    m_controller->setSaveImageUseCase(m_saveImageUseCase);
+}
+
+void AppEngine::setupControllerUseCases()
+{
+    m_controller->setSendUseCase(m_sendUseCase);
+    m_controller->setConnectionUseCase(m_connectionUseCase);
+    m_sendUseCase->setListener(m_controller.get());
 }

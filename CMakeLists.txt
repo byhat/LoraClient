@@ -18,6 +18,7 @@ if(BUILD_TESTS)
       URL https://github.com/google/googletest/archive/refs/tags/v1.14.0.zip
     )
     FetchContent_MakeAvailable(googletest)
+    enable_testing()
 endif()
 
 if(ANDROID)

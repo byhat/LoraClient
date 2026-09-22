@@ -34,18 +34,18 @@ private:
     void setupConnections();
 
     void setupReceiveUcConnections();
-    void setupSendUcConnections();
     void setupConnectionUcConnections();
     void setupConnectionWConnections();
     void setupSaveImageUcConnections();
+    void setupControllerUseCases();
 
     std::shared_ptr<IConnectionWorker> m_connector;
     std::unique_ptr<QmlController> m_controller;
 
-    std::unique_ptr<SendUseCase> m_sendUseCase;
+    std::shared_ptr<SendUseCase> m_sendUseCase;
     std::unique_ptr<ReceiveUseCase> m_receiveUseCase;
-    std::unique_ptr<ConnectionUseCase> m_connectionUseCase;
-    std::unique_ptr<SaveImageUseCase> m_saveImageUseCase;
+    std::shared_ptr<ConnectionUseCase> m_connectionUseCase;
+    std::shared_ptr<SaveImageUseCase> m_saveImageUseCase;
     infrastructure::ILoggerPtr m_logger;
     std::unique_ptr<QQmlApplicationEngine> m_engine;
 

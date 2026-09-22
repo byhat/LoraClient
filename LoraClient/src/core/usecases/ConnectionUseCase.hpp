@@ -3,30 +3,29 @@
 #include <shared_mutex>
 
 #include <QStringList>
-#include <QVariantHash>
 
+#include "../../core/entities/ConnectionSettings.hpp"
+#include "../../domain/interfaces/IConnectionListener.hpp"
 #include "../../domain/interfaces/IConnectionWorker.hpp"
 #include "../../infrastructure/loggining/ILogger.hpp"
 
 
-class ConnectionUseCase : public QObject {
-    Q_OBJECT
+class ConnectionUseCase {
 public:
-    explicit ConnectionUseCase(QObject *parent = nullptr);
+    ConnectionUseCase() = default;
+
     void setConnector(std::shared_ptr<IConnectionWorker> connector);
-    void setSettings(QVariantHash settings);
+    void setSettings(ConnectionSettings settings);
+    void setListener(IConnectionListener *listener);
     void connect();
     void disconnect();
     void getInterfacesList();
     void setLogger(infrastructure::ILoggerPtr logger);
 
-signals:
-    void errorOccured(QString error);
-    void updateInterfacesList(QStringList lst);
-
 private:
-    QVariantHash m_settings;
+    ConnectionSettings m_settings;
     std::shared_ptr<IConnectionWorker> m_connector;
+    IConnectionListener *m_listener = nullptr;
     infrastructure::ILoggerPtr m_logger;
     std::shared_mutex rw_mutex; //!< блокировка при обновлении коннектора
 };

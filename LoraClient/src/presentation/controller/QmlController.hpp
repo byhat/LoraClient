@@ -1,17 +1,29 @@
 #pragma once
+#include <QObject>
 #include <QDateTime>
 #include <QVariantList>
 #include <QVariantMap>
 #include <QImage>
+#include <memory>
 #include "QCrossPlatformSerialPortInfo.hpp"
 
 #include "src/core/entities/MsgStructures.hpp"
+#include "src/domain/interfaces/IConnectionListener.hpp"
+#include "src/domain/interfaces/IReceiveListener.hpp"
+#include "src/domain/interfaces/ISaveImageListener.hpp"
+#include "src/domain/interfaces/ISendListener.hpp"
 
 // Forward declarations
 class SaveImageUseCase;
+class SendUseCase;
+class ConnectionUseCase;
 
 
-class QmlController : public QObject {
+class QmlController : public QObject
+                     , public IReceiveListener
+                     , public ISendListener
+                     , public IConnectionListener
+                     , public ISaveImageListener {
     Q_OBJECT
 
     Q_PROPERTY(QString portName MEMBER m_portName NOTIFY portNameChanged)
@@ -30,6 +42,24 @@ class QmlController : public QObject {
 public:
     explicit QmlController(QObject *parent = nullptr);
 
+    // IReceiveListener
+    void onTextReceived(const TextMsg &txt) override;
+    void onImageReceived(const ImageMsg &img) override;
+    void onReceiveError(const QString &msg) override;
+
+    // ISendListener
+    void onSendError(const QString &msg) override;
+
+    // IConnectionListener
+    void onInterfacesList(const QStringList &lst) override;
+    void onConnectionError(const QString &msg) override;
+
+    // ISaveImageListener
+    void onImageSaved(const QString &filePath) override;
+    void onSaveImageError(const QString &errorMessage) override;
+
+    void errorOccurred(const QString &msg);
+
 public slots:
     // qml invoke slots
     void onSendText(QString msg);
@@ -41,7 +71,6 @@ public slots:
     void onOpenPort();
     void onClosePort();
     void onGetInterfacesList();
-    void onUpdateInterfacesList(QStringList lst);
 
     int sendProgress() const;
     int receiveProgress() const;
@@ -49,18 +78,11 @@ public slots:
     QString sendProgressText() const;
     QString receiveProgressText() const;
 
-    // receive slots
+    // worker event slots
     void portOpened(bool ok, const QString &error);
     void packetSent(bool success);
-    void textReceived(const TextMsg &txt);
-    void imageReceived(const ImageMsg &img);
-    void errorOccurred(const QString &msg);
     void packetSendProgress(int sentBytes, int totalBytes);
     void packetReceiveProgress(int receivedBytes, int totalBytes);
-
-    // SaveImageUseCase slots
-    void imageSaved(const QString &filePath);
-    void saveImageError(const QString &errorMessage);
 
 signals:
     // qml data update signals
@@ -72,16 +94,6 @@ signals:
     void messagesChanged();
     void sendProgressChanged();
     void receiveProgressChanged();
-
-    // actions request signals from qml
-    void openPort(QVariantHash settings);
-    void setSettings(QVariantHash settings);
-    void closePort();
-    void getInterfacesList();
-
-    void sendText(QString msg);
-    void sendImage(QString path);
-    void sendFile(QString path);
 
     // Save image signals
     void imageSavedSignal(QString filePath);
@@ -109,8 +121,12 @@ private:
     void addReceivedImage(const QString &path, const QImage &img);
     void initializeLoRaWorker();
 
-    SaveImageUseCase *m_saveImageUseCase;
+    std::shared_ptr<SaveImageUseCase> m_saveImageUseCase;
+    std::shared_ptr<SendUseCase> m_sendUseCase;
+    std::shared_ptr<ConnectionUseCase> m_connectionUseCase;
 
 public:
-    void setSaveImageUseCase(SaveImageUseCase *usecase);
+    void setSaveImageUseCase(std::shared_ptr<SaveImageUseCase> usecase);
+    void setSendUseCase(std::shared_ptr<SendUseCase> usecase);
+    void setConnectionUseCase(std::shared_ptr<ConnectionUseCase> usecase);
 };

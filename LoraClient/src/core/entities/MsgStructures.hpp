@@ -4,21 +4,17 @@
 #include <QString>
 #include <QDateTime>
 
-class AppEnums : public QObject
-{
-    Q_OBJECT
+namespace AppEnums {
 
-public:
-    static constexpr int MSG_TYPE_FLAG_SIZE = 1;
-    enum MSG_TYPE {
-        Text,
-        Image,
-        File
-    };
-    Q_ENUM(MSG_TYPE)
+inline constexpr int MSG_TYPE_FLAG_SIZE = 1;
 
-    AppEnums() = delete;
+enum MSG_TYPE {
+    Text,
+    Image,
+    File
 };
+
+} // namespace AppEnums
 
 /**
  * @brief Структура для передачи изображения с временной меткой

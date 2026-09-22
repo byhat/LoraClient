@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.16)
 find_package(Qt6 COMPONENTS Test Gui REQUIRED)
 include_directories(${CMAKE_SOURCE_DIR}/LoraClient/src)
 include_directories(${CMAKE_SOURCE_DIR}/LoraClient)
+include_directories(${CMAKE_SOURCE_DIR}/LoraClient/src/infrastructure/gateway/LoRaCore/thirdparty/QCrossPlatformSerial/src)
 
 set(CMAKE_AUTOMOC ON)
 
@@ -21,7 +22,14 @@ add_executable(loraclient_tests
     ReceiveUseCase_test.cpp
     SendUseCase_test.cpp
     SaveImageUseCase_test.cpp
+    QmlController_test.cpp
     MockConnectionWorker.hpp
+    MockListeners.hpp
+    ../LoraClient/src/core/entities/ConnectionSettings.hpp
+    ../LoraClient/src/domain/interfaces/IReceiveListener.hpp
+    ../LoraClient/src/domain/interfaces/ISendListener.hpp
+    ../LoraClient/src/domain/interfaces/IConnectionListener.hpp
+    ../LoraClient/src/domain/interfaces/ISaveImageListener.hpp
     ../LoraClient/src/core/usecases/ConnectionUseCase.cpp
     ../LoraClient/src/core/usecases/ReceiveUseCase.cpp
     ../LoraClient/src/core/usecases/SendUseCase.cpp
@@ -31,6 +39,8 @@ add_executable(loraclient_tests
     ../LoraClient/src/infrastructure/loggining/ILogger.hpp
     ../LoraClient/src/infrastructure/loggining/SpdlogLogger.cpp
     ../LoraClient/src/infrastructure/loggining/SpdlogLogger.hpp
+    ../LoraClient/src/presentation/controller/QmlController.cpp
+    ../LoraClient/src/presentation/controller/QmlController.hpp
 )
 
 # Link against GoogleTest and the main project target (if it provides a library)

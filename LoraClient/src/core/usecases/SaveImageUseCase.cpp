@@ -8,9 +8,9 @@
 #include <QDateTime>
 #include <QDebug>
 
-SaveImageUseCase::SaveImageUseCase(QObject *parent)
-    : QObject{parent}
+void SaveImageUseCase::setListener(ISaveImageListener *listener)
 {
+    m_listener = listener;
 }
 
 void SaveImageUseCase::setLogger(infrastructure::ILoggerPtr logger)
@@ -19,14 +19,20 @@ void SaveImageUseCase::setLogger(infrastructure::ILoggerPtr logger)
     m_logger = logger;
 }
 
+void SaveImageUseCase::notifyError(const QString &error)
+{
+    if (m_logger) {
+        m_logger->log(infrastructure::LogLevel::Error, error.toStdString());
+    }
+    if (m_listener) {
+        m_listener->onSaveImageError(error);
+    }
+}
+
 void SaveImageUseCase::saveImage(const QString &base64Data, const QString &timestamp)
 {
     if (base64Data.isEmpty()) {
-        QString error = "Cannot save image: base64 data is empty";
-        if (m_logger) {
-            m_logger->log(infrastructure::LogLevel::Error, error.toStdString());
-        }
-        emit errorOccured(error);
+        notifyError("Cannot save image: base64 data is empty");
         return;
     }
 
@@ -40,31 +46,19 @@ void SaveImageUseCase::saveImage(const QString &base64Data, const QString &times
     // Decode base64 data
     QByteArray imageData = QByteArray::fromBase64(processedData.toUtf8());
     if (imageData.isEmpty()) {
-        QString error = "Cannot save image: failed to decode base64 data";
-        if (m_logger) {
-            m_logger->log(infrastructure::LogLevel::Error, error.toStdString());
-        }
-        emit errorOccured(error);
+        notifyError("Cannot save image: failed to decode base64 data");
         return;
     }
 
     // Load image from decoded data
     QImage image;
     if (!image.loadFromData(imageData)) {
-        QString error = "Cannot save image: failed to load image from decoded data";
-        if (m_logger) {
-            m_logger->log(infrastructure::LogLevel::Error, error.toStdString());
-        }
-        emit errorOccured(error);
+        notifyError("Cannot save image: failed to load image from decoded data");
         return;
     }
 
     if (image.isNull()) {
-        QString error = "Cannot save image: loaded image is null";
-        if (m_logger) {
-            m_logger->log(infrastructure::LogLevel::Error, error.toStdString());
-        }
-        emit errorOccured(error);
+        notifyError("Cannot save image: loaded image is null");
         return;
     }
 
@@ -74,33 +68,21 @@ void SaveImageUseCase::saveImage(const QString &base64Data, const QString &times
         if (m_logger) {
             m_logger->log(infrastructure::LogLevel::Info, "Image saved successfully to: " + filePath.toStdString());
         }
-        emit imageSaved(filePath);
+        if (m_listener) m_listener->onImageSaved(filePath);
     } else {
-        QString error = "Failed to save image to file";
-        if (m_logger) {
-            m_logger->log(infrastructure::LogLevel::Error, error.toStdString());
-        }
-        emit errorOccured(error);
+        notifyError("Failed to save image to file");
     }
 }
 
 void SaveImageUseCase::saveImageToPath(const QString &base64Data, const QString &timestamp, const QString &filePath)
 {
     if (base64Data.isEmpty()) {
-        QString error = "Cannot save image: base64 data is empty";
-        if (m_logger) {
-            m_logger->log(infrastructure::LogLevel::Error, error.toStdString());
-        }
-        emit errorOccured(error);
+        notifyError("Cannot save image: base64 data is empty");
         return;
     }
 
     if (filePath.isEmpty()) {
-        QString error = "Cannot save image: file path is empty";
-        if (m_logger) {
-            m_logger->log(infrastructure::LogLevel::Error, error.toStdString());
-        }
-        emit errorOccured(error);
+        notifyError("Cannot save image: file path is empty");
         return;
     }
 
@@ -114,31 +96,19 @@ void SaveImageUseCase::saveImageToPath(const QString &base64Data, const QString 
     // Decode base64 data
     QByteArray imageData = QByteArray::fromBase64(processedData.toUtf8());
     if (imageData.isEmpty()) {
-        QString error = "Cannot save image: failed to decode base64 data";
-        if (m_logger) {
-            m_logger->log(infrastructure::LogLevel::Error, error.toStdString());
-        }
-        emit errorOccured(error);
+        notifyError("Cannot save image: failed to decode base64 data");
         return;
     }
 
     // Load image from decoded data
     QImage image;
     if (!image.loadFromData(imageData)) {
-        QString error = "Cannot save image: failed to load image from decoded data";
-        if (m_logger) {
-            m_logger->log(infrastructure::LogLevel::Error, error.toStdString());
-        }
-        emit errorOccured(error);
+        notifyError("Cannot save image: failed to load image from decoded data");
         return;
     }
 
     if (image.isNull()) {
-        QString error = "Cannot save image: loaded image is null";
-        if (m_logger) {
-            m_logger->log(infrastructure::LogLevel::Error, error.toStdString());
-        }
-        emit errorOccured(error);
+        notifyError("Cannot save image: loaded image is null");
         return;
     }
 
@@ -147,13 +117,9 @@ void SaveImageUseCase::saveImageToPath(const QString &base64Data, const QString 
         if (m_logger) {
             m_logger->log(infrastructure::LogLevel::Info, "Image saved successfully to: " + filePath.toStdString());
         }
-        emit imageSaved(filePath);
+        if (m_listener) m_listener->onImageSaved(filePath);
     } else {
-        QString error = "Failed to save image to file: " + filePath;
-        if (m_logger) {
-            m_logger->log(infrastructure::LogLevel::Error, error.toStdString());
-        }
-        emit errorOccured(error);
+        notifyError("Failed to save image to file: " + filePath);
     }
 }
 
@@ -218,7 +184,7 @@ bool SaveImageUseCase::saveImageToSpecificPath(const QImage &image, const QStrin
     QFileInfo fileInfo(filePath);
     QString dirPath = fileInfo.absolutePath();
     QDir dir(dirPath);
-    
+
     if (!dir.exists()) {
         if (!dir.mkpath(dirPath)) {
             if (m_logger) {

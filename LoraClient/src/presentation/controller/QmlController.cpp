@@ -1,5 +1,8 @@
 #include "QmlController.hpp"
+#include "src/core/entities/ConnectionSettings.hpp"
 #include "src/core/usecases/SaveImageUseCase.hpp"
+#include "src/core/usecases/SendUseCase.hpp"
+#include "src/core/usecases/ConnectionUseCase.hpp"
 
 #include <QUrl>
 #include <QBuffer>
@@ -7,14 +10,18 @@
 
 QmlController::QmlController(QObject *parent)
     : QObject{parent}
-    , m_saveImageUseCase(nullptr)
 {
 }
 
 void QmlController::onSendText(QString msg)
 {
     addSentMessage(msg, "sent");
-    emit sendText(msg);
+
+    if (m_sendUseCase) {
+        m_sendUseCase->sendText(msg);
+    } else {
+        addSentMessage("Ошибка: SendUseCase не инициализирован", "error");
+    }
 }
 
 void QmlController::onSendImage(QString path) {
@@ -58,39 +65,57 @@ void QmlController::onSendImage(QString path) {
 
     qDebug() << "Изображение успешно загружено:" << img.size() << "пикселей";
 
-    emit sendImage(localPath);
+    if (m_sendUseCase) {
+        m_sendUseCase->sendImage(localPath);
+    } else {
+        addSentMessage("Ошибка: SendUseCase не инициализирован", "error");
+    }
+
     addSentImage(localPath, img);
 }
 
 void QmlController::onSendFile(QString path)
 {
     addSentMessage(path, "sent");
-    emit onSendFile(path);
+
+    if (m_sendUseCase) {
+        m_sendUseCase->sendFile(path);
+    } else {
+        addSentMessage("Ошибка: SendUseCase не инициализирован", "error");
+    }
 }
 
 void QmlController::onOpenPort()
 {
-    QVariantHash settings;
-    settings["portName"] = m_portName;
-    settings["baud"]     = m_baudRate;
+    if (!m_connectionUseCase) {
+        addSentMessage("Ошибка: ConnectionUseCase не инициализирован", "error");
+        return;
+    }
 
-    emit openPort(settings);
+    ConnectionSettings settings;
+    settings.portName = m_portName;
+    settings.baud     = m_baudRate;
+
+    m_connectionUseCase->setSettings(settings);
+    m_connectionUseCase->connect();
 }
 
 void QmlController::onClosePort()
 {
-    emit closePort();
+    if (m_connectionUseCase) {
+        m_connectionUseCase->disconnect();
+    } else {
+        addSentMessage("Ошибка: ConnectionUseCase не инициализирован", "error");
+    }
 }
 
 void QmlController::onGetInterfacesList()
 {
-    emit getInterfacesList();
-}
-
-void QmlController::onUpdateInterfacesList(QStringList lst)
-{
-    m_availablePorts = lst;
-    emit availablePortsChanged();
+    if (m_connectionUseCase) {
+        m_connectionUseCase->getInterfacesList();
+    } else {
+        addSentMessage("Ошибка: ConnectionUseCase не инициализирован", "error");
+    }
 }
 
 void QmlController::portOpened(bool ok, const QString &error)
@@ -112,7 +137,7 @@ void QmlController::packetSent(bool success) {
     emit sendProgressChanged();
 }
 
-void QmlController::textReceived(const TextMsg &txt) {
+void QmlController::onTextReceived(const TextMsg &txt) {
     m_receiveBytes = m_receiveTotal = 0;
     m_receiveProgress = 0;
     QVariantMap msg;
@@ -131,7 +156,7 @@ void QmlController::textReceived(const TextMsg &txt) {
 
 }
 
-void QmlController::imageReceived(const ImageMsg &img)
+void QmlController::onImageReceived(const ImageMsg &img)
 {
     m_receiveBytes = m_receiveTotal = 0;
     m_receiveProgress = 0;
@@ -140,7 +165,7 @@ void QmlController::imageReceived(const ImageMsg &img)
 
     if (img.img.isNull()) {
         qDebug() << "Warning: Received image is null!";
-        emit errorOccurred("Получено пустое изображение");
+        errorOccurred("Получено пустое изображение");
         return;
     }
 
@@ -172,6 +197,27 @@ void QmlController::errorOccurred(const QString &msg) {
     m_lastError = msg;
     emit errorOccurred();
     addSentMessage("Ошибка: " + msg, "error");
+}
+
+void QmlController::onSendError(const QString &msg)
+{
+    errorOccurred(msg);
+}
+
+void QmlController::onReceiveError(const QString &msg)
+{
+    errorOccurred(msg);
+}
+
+void QmlController::onConnectionError(const QString &msg)
+{
+    errorOccurred(msg);
+}
+
+void QmlController::onInterfacesList(const QStringList &lst)
+{
+    m_availablePorts = lst;
+    emit availablePortsChanged();
 }
 
 void QmlController::packetSendProgress(int sentBytes, int totalBytes) {
@@ -224,16 +270,19 @@ void QmlController::addSentMessage(const QString &text, const QString &type)
     emit messagesChanged();
 }
 
-void QmlController::setSaveImageUseCase(SaveImageUseCase *usecase)
+void QmlController::setSaveImageUseCase(std::shared_ptr<SaveImageUseCase> usecase)
 {
     m_saveImageUseCase = usecase;
+}
 
-    if (m_saveImageUseCase) {
-        connect(m_saveImageUseCase, &SaveImageUseCase::imageSaved,
-                this, &QmlController::imageSaved);
-        connect(m_saveImageUseCase, &SaveImageUseCase::errorOccured,
-                this, &QmlController::saveImageError);
-    }
+void QmlController::setSendUseCase(std::shared_ptr<SendUseCase> usecase)
+{
+    m_sendUseCase = usecase;
+}
+
+void QmlController::setConnectionUseCase(std::shared_ptr<ConnectionUseCase> usecase)
+{
+    m_connectionUseCase = usecase;
 }
 
 void QmlController::saveImage(const QString &base64Data, const QString &timestamp)
@@ -260,13 +309,13 @@ void QmlController::saveImageToPath(const QString &base64Data, const QString &ti
     }
 }
 
-void QmlController::imageSaved(const QString &filePath)
+void QmlController::onImageSaved(const QString &filePath)
 {
     addSentMessage("Изображение сохранено: " + filePath, "sent");
     emit imageSavedSignal(filePath);
 }
 
-void QmlController::saveImageError(const QString &errorMessage)
+void QmlController::onSaveImageError(const QString &errorMessage)
 {
     addSentMessage("Ошибка сохранения: " + errorMessage, "error");
 }

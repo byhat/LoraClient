@@ -1,10 +1,6 @@
 #include <mutex>
-#include "ConnectionUseCase.hpp"
-ConnectionUseCase::ConnectionUseCase(QObject *parent)
-    : QObject {parent}
-{
 
-}
+#include "ConnectionUseCase.hpp"
 
 void ConnectionUseCase::setConnector(std::shared_ptr<IConnectionWorker> connector)
 {
@@ -12,31 +8,31 @@ void ConnectionUseCase::setConnector(std::shared_ptr<IConnectionWorker> connecto
     m_connector = connector;
 }
 
-void ConnectionUseCase::setSettings(QVariantHash settings)
+void ConnectionUseCase::setSettings(ConnectionSettings settings)
 {
     m_settings = settings;
+}
+
+void ConnectionUseCase::setListener(IConnectionListener *listener)
+{
+    m_listener = listener;
 }
 
 void ConnectionUseCase::connect()
 {
     std::shared_lock lock(rw_mutex);
 
-    QString portName = "ttyUSB0";
-    qint32 baud = 9600;
-
-    if (m_settings.contains("portName")) {
-        portName = m_settings["portName"].toString();
-    }
-
-    if (m_settings.contains("baud")) {
-        baud = m_settings["baud"].toUInt();
+    if (!m_connector) {
+        if (m_logger) m_logger->log(infrastructure::LogLevel::Error, "Gateway adapter not initialized on openPort");
+        if (m_listener) m_listener->onConnectionError("Gateway adaprer is not initialized");
+        return;
     }
 
     try {
-        m_connector->openPort(portName, baud);
+        m_connector->openPort(m_settings.portName, m_settings.baud);
     } catch(...) {
         if (m_logger) m_logger->log(infrastructure::LogLevel::Error, "Gateway adapter not initialized on openPort");
-        emit errorOccured("Gateway adaprer is not initialized");
+        if (m_listener) m_listener->onConnectionError("Gateway adaprer is not initialized");
     }
 }
 
@@ -44,11 +40,17 @@ void ConnectionUseCase::disconnect()
 {
     std::shared_lock lock(rw_mutex);
 
+    if (!m_connector) {
+        if (m_logger) m_logger->log(infrastructure::LogLevel::Error, "Gateway adapter not initialized on closePort");
+        if (m_listener) m_listener->onConnectionError("Gateway adaprer is not initialized");
+        return;
+    }
+
     try {
         m_connector->closePort();
     } catch(...) {
         if (m_logger) m_logger->log(infrastructure::LogLevel::Error, "Gateway adapter not initialized on closePort");
-        emit errorOccured("Gateway adaprer is not initialized");
+        if (m_listener) m_listener->onConnectionError("Gateway adaprer is not initialized");
     }
 }
 
@@ -60,13 +62,21 @@ void ConnectionUseCase::getInterfacesList()
 {
     std::shared_lock lock(rw_mutex);
 
+    if (!m_connector) {
+        if (m_logger) m_logger->log(infrastructure::LogLevel::Error, "Gateway adapter not initialized on getInterfacesList");
+        if (m_listener) m_listener->onConnectionError("Gateway adaprer is not initialized");
+        if (m_listener) m_listener->onInterfacesList(QStringList{});
+        return;
+    }
+
     try {
-        emit updateInterfacesList(m_connector->getInterfacesList());
+        QStringList lst = m_connector->getInterfacesList();
+        if (m_listener) m_listener->onInterfacesList(lst);
         return;
     } catch(...) {
         if (m_logger) m_logger->log(infrastructure::LogLevel::Error, "Gateway adapter not initialized on getInterfacesList");
-        emit errorOccured("Gateway adaprer is not initialized");
+        if (m_listener) m_listener->onConnectionError("Gateway adaprer is not initialized");
     }
 
-    emit updateInterfacesList(QStringList{});
+    if (m_listener) m_listener->onInterfacesList(QStringList{});
 }

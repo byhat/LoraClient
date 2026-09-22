@@ -34,7 +34,8 @@ qt_add_executable(${PROJECT_NAME}
     
     # business-logic
     src/core/entities/MsgStructures.hpp
-    
+    src/core/entities/ConnectionSettings.hpp
+
     src/core/usecases/ConnectionUseCase.cpp
     src/core/usecases/ConnectionUseCase.hpp
     src/infrastructure/loggining/SpdlogLogger.cpp
@@ -51,6 +52,10 @@ qt_add_executable(${PROJECT_NAME}
 
     # lora
     src/domain/interfaces/IConnectionWorker.hpp
+    src/domain/interfaces/IReceiveListener.hpp
+    src/domain/interfaces/ISendListener.hpp
+    src/domain/interfaces/IConnectionListener.hpp
+    src/domain/interfaces/ISaveImageListener.hpp
     src/infrastructure/gateway/LoraWrapper.hpp
 
     # presentation

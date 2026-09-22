@@ -8,26 +8,22 @@
 
 #include "src/core/entities/MsgStructures.hpp"
 #include <src/domain/interfaces/IConnectionWorker.hpp>
+#include <src/domain/interfaces/IReceiveListener.hpp>
 #include <src/infrastructure/loggining/ILogger.hpp>
 
 
-class ReceiveUseCase : public QObject{
-    Q_OBJECT
+class ReceiveUseCase{
 public:
-    explicit ReceiveUseCase(QObject *parent = nullptr);
+    ReceiveUseCase() = default;
 
     void setConnector(std::shared_ptr<IConnectionWorker> connector);
+    void setListener(IReceiveListener *listener);
     void setLogger(infrastructure::ILoggerPtr logger);
     void handleData(const QByteArray &data);
 
-signals:
-    void imageReceived(const ImageMsg &img);
-    void txtReceived(const TextMsg &str);
-    void fileReceived(const FileMsg &data);
-    void errorOccured(QString error);
-
 private:
     std::shared_ptr<IConnectionWorker> m_connector;
+    IReceiveListener *m_listener = nullptr;
     infrastructure::ILoggerPtr m_logger;
     std::mutex m_mutex; //!< блокировка при обновлении коннектора
 };

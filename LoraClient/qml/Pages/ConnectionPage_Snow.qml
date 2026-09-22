@@ -113,7 +113,7 @@ Page {
                     onClicked: {
                         appEngine.portName = portSelector.currentText
                         appEngine.baudRate = parseInt(baudSelector.currentText)
-                        appEngine.openPort()
+                        appEngine.onOpenPort()
                     }
                     enabled: !appEngine.isConnected
 
@@ -125,7 +125,7 @@ Page {
 
                 Button {
                     text: "Отключиться"
-                    onClicked: appEngine.closePort()
+                    onClicked: appEngine.onClosePort()
                     enabled: appEngine.isConnected
 
                     palette: Palette {

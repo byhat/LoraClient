@@ -1,26 +1,16 @@
-#include "ReceiveUseCase.hpp"
 #include <QDebug>
 
-ReceiveUseCase::ReceiveUseCase(QObject *parent)
-    : QObject {parent}
-{
-
-}
+#include "ReceiveUseCase.hpp"
 
 void ReceiveUseCase::setConnector(std::shared_ptr<IConnectionWorker> connector)
 {
     std::lock_guard<std::mutex> lock(m_mutex);
     m_connector = connector;
+}
 
-    try {
-        connect(m_connector.get(),
-                &IConnectionWorker::packetReceived,
-                this,
-                &ReceiveUseCase::handleData,
-                Qt::QueuedConnection);
-    } catch(...) {
-        emit errorOccured("Gateway adaprer is not initialized");
-    }
+void ReceiveUseCase::setListener(IReceiveListener *listener)
+{
+    m_listener = listener;
 }
 
 void ReceiveUseCase::setLogger(infrastructure::ILoggerPtr logger) {
@@ -42,7 +32,7 @@ void ReceiveUseCase::handleData(const QByteArray &data)
         TextMsg msg;
         msg.text = qUncompress(data.mid(AppEnums::MSG_TYPE_FLAG_SIZE));
         msg.time = QDateTime::currentDateTime();
-        emit txtReceived(msg);
+        if (m_listener) m_listener->onTextReceived(msg);
     } else if (type == AppEnums::MSG_TYPE::Image) {
         ImageMsg msg;
         QByteArray uncompressedData = qUncompress(data.mid(AppEnums::MSG_TYPE_FLAG_SIZE));
@@ -53,12 +43,12 @@ void ReceiveUseCase::handleData(const QByteArray &data)
             qDebug() << "Warning: Failed to load image from data";
         }
         msg.time = QDateTime::currentDateTime();
-        emit imageReceived(msg);
+        if (m_listener) m_listener->onImageReceived(msg);
     } else if (type == AppEnums::MSG_TYPE::File) {
         FileMsg msg;
         msg.fileName = QString(qUncompress(data.mid(1, FileMsg::FILENAME_SIZE)));
         msg.data = qUncompress(data.mid(AppEnums::MSG_TYPE_FLAG_SIZE));
         msg.time = QDateTime::currentDateTime();
-        emit fileReceived(msg);
+        if (m_listener) m_listener->onFileReceived(msg);
     }
 }

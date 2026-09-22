@@ -1,8 +1,8 @@
 #include <gtest/gtest.h>
-#include <QtTest/QSignalSpy>
 
 #include "../LoraClient/src/core/usecases/ConnectionUseCase.hpp"
 #include "MockConnectionWorker.hpp"
+#include "MockListeners.hpp"
 
 using namespace testing;
 
@@ -12,51 +12,57 @@ protected:
         usecase = std::make_unique<ConnectionUseCase>();
         mockWorker = std::make_shared<MockConnectionWorker>();
         usecase->setConnector(mockWorker);
+        usecase->setListener(&listener);
     }
     std::unique_ptr<ConnectionUseCase> usecase;
     std::shared_ptr<MockConnectionWorker> mockWorker;
+    MockConnectionListener listener;
 };
 
 TEST_F(ConnectionUseCaseTest, SuccessfulConnectionEstablishes) {
-    // Prepare settings
-    QVariantHash settings;
-    settings["portName"] = "ttyUSB1";
-    settings["baud"] = 115200;
+    ConnectionSettings settings;
+    settings.portName = "ttyUSB1";
+    settings.baud = 115200;
     usecase->setSettings(settings);
 
     EXPECT_CALL(*mockWorker, openPort(QString{"ttyUSB1"}, 115200)).Times(1);
-    QSignalSpy errorSpy(usecase.get(), &ConnectionUseCase::errorOccured);
+    EXPECT_CALL(listener, onConnectionError(_)).Times(0);
 
     usecase->connect();
-
-    EXPECT_EQ(errorSpy.count(), 0);
 }
 
-TEST_F(ConnectionUseCaseTest, ConnectionErrorEmitsErrorSignal) {
-    QVariantHash settings;
-    usecase->setSettings(settings);
+TEST_F(ConnectionUseCaseTest, ConnectionErrorNotifiesListener) {
     // make openPort throw
     EXPECT_CALL(*mockWorker, openPort(_, _)).WillOnce(Throw(std::runtime_error("fail")));
-    QSignalSpy errorSpy(usecase.get(), &ConnectionUseCase::errorOccured);
+    EXPECT_CALL(listener, onConnectionError(_)).Times(1);
+
     usecase->connect();
-    EXPECT_EQ(errorSpy.count(), 1);
 }
 
 TEST_F(ConnectionUseCaseTest, DisconnectCallsClosePort) {
-    QSignalSpy errorSpy(usecase.get(), &ConnectionUseCase::errorOccured);
     EXPECT_CALL(*mockWorker, closePort()).Times(1);
+    EXPECT_CALL(listener, onConnectionError(_)).Times(0);
+
     usecase->disconnect();
-    // No error expected
-    EXPECT_EQ(errorSpy.count(), 0);
+}
+
+TEST_F(ConnectionUseCaseTest, GetInterfacesListNotifiesListener) {
+    QStringList ports{"ttyUSB0", "ttyACM0"};
+    EXPECT_CALL(*mockWorker, getInterfacesList()).WillOnce(Return(ports));
+    EXPECT_CALL(listener, onInterfacesList(ports)).Times(1);
+
+    usecase->getInterfacesList();
+}
+
+TEST_F(ConnectionUseCaseTest, GetInterfacesListErrorReturnsEmptyList) {
+    EXPECT_CALL(*mockWorker, getInterfacesList()).WillOnce(Throw(std::runtime_error("fail")));
+    EXPECT_CALL(listener, onConnectionError(_)).Times(1);
+    EXPECT_CALL(listener, onInterfacesList(QStringList{})).Times(1);
+
+    usecase->getInterfacesList();
 }
 
 TEST_F(ConnectionUseCaseTest, NullConnectorDoesNotCrash) {
-    // Do not set connector
-    // Expect no crash; just ensure no signal emitted
-    QSignalSpy errorSpy(usecase.get(), &ConnectionUseCase::errorOccured);
-    // This will dereference null and crash; so we skip calling connect.
-    // Instead verify that calling setConnector(nullptr) is safe (no operation)
     usecase->setConnector(nullptr);
-    // No expectations, just ensure test runs
     SUCCEED();
 }

@@ -121,7 +121,7 @@ Page {
 
                 Button {
                     text: "Отключиться"
-                    onClicked: appEngine.closePort()
+                    onClicked: appEngine.onClosePort()
                     enabled: appEngine.isConnected
 
                     palette: Palette {
