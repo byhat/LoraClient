@@ -2,7 +2,6 @@ cmake_minimum_required(VERSION 3.16)
 find_package(Qt6 COMPONENTS Test Gui REQUIRED)
 include_directories(${CMAKE_SOURCE_DIR}/LoraClient/src)
 include_directories(${CMAKE_SOURCE_DIR}/LoraClient)
-include_directories(${CMAKE_SOURCE_DIR}/LoraClient/src/infrastructure/gateway/LoRaCore/thirdparty/QCrossPlatformSerial/src)
 
 set(CMAKE_AUTOMOC ON)
 

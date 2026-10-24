@@ -5,7 +5,6 @@
 #include <QVariantMap>
 #include <QImage>
 #include <memory>
-#include "QCrossPlatformSerialPortInfo.hpp"
 
 #include "src/core/entities/MsgStructures.hpp"
 #include "src/domain/interfaces/IConnectionListener.hpp"

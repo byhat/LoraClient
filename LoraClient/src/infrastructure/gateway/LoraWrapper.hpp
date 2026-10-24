@@ -2,7 +2,7 @@
 
 #include <QThread>
 #include <QByteArray>
-#include "QCrossPlatformSerialPortInfo.hpp"
+#include <cs/SerialPortInfo.hpp>
 
 #include "src/domain/interfaces/IConnectionWorker.hpp"
 #include <LoRaWorker.hpp>
@@ -51,7 +51,6 @@ public slots:
                 baud,
                 Qt::QueuedConnection
                 );
-            m_loraWorker->openPort(portName, baud);
         } catch(...) {
             emit errorOccurred("LoRaWorker is not initialized");
         }
@@ -99,13 +98,13 @@ public slots:
      * @return QStringList Список имён доступных портов
      */
     QStringList getInterfacesList() override {
-        QList<QCrossPlatformSerialPortInfo> lst = QCrossPlatformSerialPortInfo::availablePorts();
+        const std::vector<cs::SerialPortInfo> lst = cs::SerialPortInfo::availablePorts();
 
         QStringList ports;
-        ports.reserve(lst.size());
+        ports.reserve(static_cast<int>(lst.size()));
 
-        for (auto& port : lst) {
-            ports.push_back(port.portName());
+        for (const auto& port : lst) {
+            ports.push_back(QString::fromStdString(port.portName()));
         }
 
         return ports;

@@ -2,7 +2,6 @@
 #include <QDateTime>
 #include <QVariantList>
 #include <QVariantMap>
-#include "QCrossPlatformSerialPortInfo.hpp"
 #include <QCoreApplication>
 
 #include "src/infrastructure/gateway/LoraWrapper.hpp"

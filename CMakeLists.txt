@@ -8,7 +8,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 option(BUILD_TESTS "BUILD UNIT TESTS" OFF)
 
-find_package(Qt6 COMPONENTS Core Qml Gui Concurrent SerialPort REQUIRED)
+find_package(Qt6 COMPONENTS Core Qml Gui Concurrent REQUIRED)
 
 if(BUILD_TESTS)
     # GoogleTest
@@ -27,20 +27,9 @@ if(ANDROID)
     # Explicitly set Android SDK versions to avoid Qt defaulting to 35
     set(CMAKE_ANDROID_API 34)
     set(CMAKE_ANDROID_BUILD_TOOLS_VERSION "34.0.0")
-    
-    # Copy Java files from QCrossPlatformSerial library to android/src
-    file(COPY
-        ${CMAKE_SOURCE_DIR}/LoraClient/src/infrastructure/gateway/LoRaCore/thirdparty/QCrossPlatformSerial/android/src/org/qtserial/UsbSerialManager.java
-        DESTINATION ${CMAKE_SOURCE_DIR}/android/src/org/qtserial/
-    )
-    file(COPY
-        ${CMAKE_SOURCE_DIR}/LoraClient/src/infrastructure/gateway/LoRaCore/thirdparty/QCrossPlatformSerial/android/src/org/qtserial/JniUsbSerial.java
-        DESTINATION ${CMAKE_SOURCE_DIR}/android/src/org/qtserial/
-    )
-    file(COPY
-        ${CMAKE_SOURCE_DIR}/LoraClient/src/infrastructure/gateway/LoRaCore/thirdparty/QCrossPlatformSerial/android/src/org/qtserial/SerialInputOutputManager.java
-        DESTINATION ${CMAKE_SOURCE_DIR}/android/src/org/qtserial/
-    )
+
+    # TODO: Android integration with CrossSerial (embedded dex, see
+    # thirdparty/CrossSerial/docs/android.md) is deferred for now.
 endif()
 
 add_subdirectory(LoraClient)
