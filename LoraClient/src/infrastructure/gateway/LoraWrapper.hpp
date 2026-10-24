@@ -44,12 +44,15 @@ public slots:
      */
     void openPort(const QString &portName, qint32 baud = 9600) override {
         try {
+            // Connection type must come before the Q_ARG list: with the
+            // arguments-first form Qt::QueuedConnection is treated as a
+            // method parameter and the lookup fails at runtime.
             QMetaObject::invokeMethod(
                 m_loraWorker.get(),
                 "openPort",
-                portName,
-                baud,
-                Qt::QueuedConnection
+                Qt::QueuedConnection,
+                Q_ARG(QString, portName),
+                Q_ARG(qint32, baud)
                 );
         } catch(...) {
             emit errorOccurred("LoRaWorker is not initialized");
