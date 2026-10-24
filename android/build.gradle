@@ -5,14 +5,15 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:8.0.0'
+        // AGP 8.6 is needed for compileSdk 35 (Qt 6.9's default target);
+        // AGP 8.0's aapt2 cannot parse the android-35 platform resources.
+        classpath 'com.android.tools.build:gradle:8.6.1'
     }
 }
 
 repositories {
     google()
     mavenCentral()
-    maven { url 'https://jitpack.io' }
 }
 
 apply plugin: 'com.android.application'
@@ -20,23 +21,8 @@ apply plugin: 'com.android.application'
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
     implementation 'androidx.core:core:1.13.1'
-    implementation 'com.github.mik3y:usb-serial-for-android:3.8.0'
-    implementation 'androidx.appcompat:appcompat:1.4.0'
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:1.9.22"
-    implementation ("androidx.constraintlayout:constraintlayout:2.1.4")
-
-
-
-}
-
-
-configurations {
-    all {
-        resolutionStrategy {
-            force 'org.jetbrains.kotlin:kotlin-stdlib:1.8.22'
-            force 'org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.8.22'
-        }
-    }
+    // No usb-serial-for-android / appcompat / Kotlin deps: serial on Android
+    // is handled by CrossSerial's dex embedded in the native library.
 }
 
 

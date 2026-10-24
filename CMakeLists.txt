@@ -27,9 +27,6 @@ if(ANDROID)
     # Explicitly set Android SDK versions to avoid Qt defaulting to 35
     set(CMAKE_ANDROID_API 34)
     set(CMAKE_ANDROID_BUILD_TOOLS_VERSION "34.0.0")
-
-    # TODO: Android integration with CrossSerial (embedded dex, see
-    # thirdparty/CrossSerial/docs/android.md) is deferred for now.
 endif()
 
 add_subdirectory(LoraClient)

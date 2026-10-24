@@ -147,11 +147,9 @@ if(ANDROID)
         # Android resources - xml
         ${ANDROID_PACKAGE_SOURCE_DIR}/res/xml/device_filter.xml
         ${ANDROID_PACKAGE_SOURCE_DIR}/res/xml/qtprovider_paths.xml
-        
-        # Java sources for USB serial support
-        ${ANDROID_PACKAGE_SOURCE_DIR}/src/org/qtserial/JniUsbSerial.java
-        ${ANDROID_PACKAGE_SOURCE_DIR}/src/org/qtserial/SerialInputOutputManager.java
-        ${ANDROID_PACKAGE_SOURCE_DIR}/src/org/qtserial/UsbSerialManager.java
+
+        # Serial on Android is provided by CrossSerial's embedded dex inside
+        # libcrossserial (see its docs/android.md) - no app-level Java sources.
     )
     
     set_target_properties(${PROJECT_NAME} PROPERTIES
@@ -160,12 +158,10 @@ if(ANDROID)
         QT_ANDROID_DEPLOYQT_OPTIONS "--verbose"
     )
     
-    # Qt6 Android-specific policies and finalization
-    if(ANDROID)
-        qt_policy(SET QTP0001 NEW)
-        qt_policy(SET QTP0002 NEW)
-        qt_finalize_executable(${PROJECT_NAME})
-    endif()
+    # Qt6 Android-specific policies (QTP0002 NEW = automatic finalization,
+    # hence no explicit qt_finalize_executable call here)
+    qt_policy(SET QTP0001 NEW)
+    qt_policy(SET QTP0002 NEW)
 endif()
 
 include(GNUInstallDirs)
